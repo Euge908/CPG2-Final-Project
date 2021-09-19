@@ -7,10 +7,12 @@ function check_login($con)
 	{
 
 		$id = $_SESSION['user_id'];
-		$query = "select * from users where user_id = '$id' limit 1";
 
-		$result = mysqli_query($con,$query);
-		if($result && mysqli_num_rows($result) > 0)
+		$query = "select * from users where user_id = $id limit 1";
+
+		$result = mysqli_query($con, $query);
+
+        if($result && mysqli_num_rows($result) > 0)
 		{
 
 			$user_data = mysqli_fetch_assoc($result);
@@ -18,7 +20,7 @@ function check_login($con)
 		}
 	}
 
-	//redirect to login
+	//redirect to login if someone were to say change the html file (some websites fail to do this)
 	header("Location: login.php");
 	die;
 

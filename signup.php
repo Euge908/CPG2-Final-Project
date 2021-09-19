@@ -1,4 +1,6 @@
-<?php 
+<?php
+
+//Normally you would encrypt and hash stuff with databases for extra security, but idk if this would be possible given time
 session_start();
 
 	include("connection.php");
@@ -8,23 +10,23 @@ session_start();
 	if($_SERVER['REQUEST_METHOD'] == "POST")
 	{
 		//something was posted
-		$user_name = $_POST['user_name'];
+		$email = $_POST['email'];
 		$password = $_POST['password'];
+		$name = $_POST['name'];
+        $privelege = "employee";
 
-		if(!empty($user_name) && !empty($password) && !is_numeric($user_name))
+		if(!empty($email) && !empty($password) && filter_var($email, FILTER_VALIDATE_EMAIL))
 		{
-
 			//save to database
 			$user_id = random_num(20);
-			$query = "insert into users (user_id,user_name,password) values ('$user_id','$user_name','$password')";
+			$query = "insert into  users (name, user_id, email, password, privelege) values ('$name','$user_id','$email','$password', '$privelege')";
 
 			mysqli_query($con, $query);
-
 			header("Location: login.php");
 			die;
 		}else
 		{
-			echo "Please enter some valid information!";
+		    echo "Invalid Fields Detected";
 		}
 	}
 ?>
@@ -68,12 +70,16 @@ session_start();
 	</style>
 
 	<div id="box">
-		
+        <!--		I'll style later using bootstrap.-->
+        <!--        NOTE TO SELF: Don't touch the name tags-->
 		<form method="post">
 			<div style="font-size: 20px;margin: 10px;color: white;">Signup</div>
-
-			<input id="text" type="text" name="user_name"><br><br>
-			<input id="text" type="password" name="password"><br><br>
+            Name:
+			<input id="text" type="text" name="name"><br><br>
+            Email:
+            <input id="text" type="text" name="email"><br><br>
+            Password:
+            <input id="text" type="password" name="password"><br><br>
 
 			<input id="button" type="submit" value="Signup"><br><br>
 

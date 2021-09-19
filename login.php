@@ -9,14 +9,14 @@ session_start();
 	if($_SERVER['REQUEST_METHOD'] == "POST")
 	{
 		//something was posted
-		$user_name = $_POST['user_name'];
+		$email = $_POST['email'];
 		$password = $_POST['password'];
 
-		if(!empty($user_name) && !empty($password) && !is_numeric($user_name))
+		//if all fields inputted were valid
+		if(!empty($email) && !empty($password) && filter_var($email, FILTER_VALIDATE_EMAIL))
 		{
-
 			//read from database
-			$query = "select * from users where user_name = '$user_name' limit 1";
+			$query = "select * from users where email = '$email' limit 1";
 			$result = mysqli_query($con, $query);
 
 			if($result)
@@ -24,22 +24,24 @@ session_start();
 				if($result && mysqli_num_rows($result) > 0)
 				{
 
-					$user_data = mysqli_fetch_assoc($result);
-					
+					$user_data = mysqli_fetch_assoc($result); //user data to access stuff
+                    echo $user_data["date"];
+
+
 					if($user_data['password'] === $password)
 					{
 
-						$_SESSION['user_id'] = $user_data['user_id'];
+						$_SESSION['user_id'] = $user_data['user_id']; //global variable name
 						header("Location: index.php");
 						die;
 					}
 				}
 			}
 			
-			echo "wrong username or password!";
+			echo "Invalid email or password!";
 		}else
 		{
-			echo "wrong username or password!";
+			echo "Invalid email or password!";
 		}
 	}
 
@@ -83,18 +85,18 @@ session_start();
 
 	</style>
 
-	<div id="box">
-		
-		<form method="post">
-			<div style="font-size: 20px;margin: 10px;color: white;">Login</div>
+    <div id="box">
+        <!--		I'll style later using bootstrap.-->
+        <!--        NOTE TO SELF: Don't touch the name tags-->
+        <form method="post">
+            <div style="font-size: 20px;margin: 10px;color: white;">Log In</div>
+            Email:
+            <input id="text" type="text" name="email"><br><br>
+            Password:
+            <input id="text" type="password" name="password"><br><br>
 
-			<input id="text" type="text" name="user_name"><br><br>
-			<input id="text" type="password" name="password"><br><br>
-
-			<input id="button" type="submit" value="Login"><br><br>
-
-			<a href="signup.php">Click to Signup</a><br><br>
-		</form>
-	</div>
+            <input id="button" type="submit" value="Sign In"><br><br>
+        </form>
+    </div>
 </body>
 </html>

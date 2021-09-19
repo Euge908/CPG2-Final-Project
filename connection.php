@@ -1,12 +1,19 @@
 <?php
 
+
+//code to connect php to mysql database
+//implemented as a separate file to avoid redundant code
 $dbhost = "localhost";
 $dbuser = "root";
 $dbpass = "";
-$dbname = "login_sample_db";
+$dbname = "user_login"; //data base name. I created a different db for testing purposes.
 
-if(!$con = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname))
+$con = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname);
+
+if(!$con)
 {
-
 	die("failed to connect!");
 }
+
+$apple = "apple";
+?>
