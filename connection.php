@@ -6,7 +6,7 @@
 $dbhost = "localhost";
 $dbuser = "root";
 $dbpass = "";
-$dbname = "user_login"; //data base name. I created a different db for testing purposes.
+$dbname = "Inventory"; //data base name. I created a different db for testing purposes.
 
 $con = mysqli_connect($dbhost,$dbuser,$dbpass,$dbname);
 
