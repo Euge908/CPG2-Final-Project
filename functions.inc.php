@@ -45,3 +45,8 @@ function random_num($length)
 
 	return $text;
 }
+
+function parse_input($string) {
+    // Parse input string in an attempt to prevent Cross-site scripting
+    return htmlspecialchars(stripslashes(trim($string)));
+}
