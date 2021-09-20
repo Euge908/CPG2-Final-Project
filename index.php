@@ -73,8 +73,20 @@ session_start();
     <h1>Previous Expenditure Entries</h1>
 
     <form method = "post">
+        Query text:
         <input id="button" type="text" name="queryText" placeholder="Entry field">
-        <input id="button" type="submit" name="filterBy" value="Filter By">
+
+        Filter by:
+        <select id="text" type="text" name="columnToBeArranged">
+            <option value='Item'>Item</option>
+            <option value="PurchaseDate">PurchaseDate</option>
+            <option value="Description">Description</option>
+            <option value="Quantity">Quantity</option>
+            <option value="Unit">Unit</option>
+            <option value="Category">Category</option>
+        </select>
+
+        <input id="button" type="submit" name="orderBy" value="Order By">
         <input id="button" type="submit" name="searchValue" value="Search Value"><br><br>
     </form>
 
@@ -94,43 +106,53 @@ session_start();
     <?php
     //code for displaying previous tables here
     //if condition is blank, it means display everything
-    $query = "select * from expenditure";
-    $text = $_POST["queryText"];
+    $text = "";
 
-    if(empty($text))
-    {
-        echo "Empty Text Field. Enter Text to query.";
-    }else{
-        if (isset($_POST['filterBy'])) {
-            echo "Filter by ".$text;
-            //nothing yet will add stuff here
-        }
-        elseif (isset($_POST['searchValue'])) {
-            echo "Search Entry was clicked";
-            $query = "select * from expenditure where Item = '$text'";
+
+    $query = "select * from expenditure";
+    $results = mysqli_query($con, $query);
+
+
+    if (isset($_POST['searchValue'])) {
+        $text = trim($_POST["queryText"]); //string is search bar
+
+        if(empty($text))
+        {
+            echo "Empty Text Field. Enter Text to query.";
+        }else{
+
+            if (isset($_POST['searchValue'])) {
+                echo "Search Entry was clicked";
+                $query = "select * from expenditure where Item = '$text'";
+                $results = mysqli_query($con, $query);
+
+            }
         }
     }
 
+    $orderBy = trim($_POST["columnToBeArranged"]); //string in drop down
+    if (isset($_POST['orderBy'])) {
+        $orderBy = $query. " order by $orderBy ASC";
+        $results = mysqli_query($con, $orderBy);
+    }
 
-    $rows = mysqli_query($con, $query);
-
-    if($query)
+    if($results)
     {
-        if(mysqli_num_rows($rows) > 0)
+        if(mysqli_num_rows($results) > 0)
 
         {
-            while($results = mysqli_fetch_array($rows))
+            while($rows= mysqli_fetch_array($results))
             {
-                echo "<tr><td>".$results['Item']."</td>";
-                echo "<td>".$results['PurchaseDate']."</td>";
-                echo "<td>".$results['Description']."</td>";
-                echo "<td>".$results['Quantity']."</td>";
-                echo "<td>".$results['Unit']."</td>";
-                echo "<td>".$results['Category']."</td></tr>";
+                echo "<tr><td>".$rows['Item']."</td>";
+                echo "<td>".$rows['PurchaseDate']."</td>";
+                echo "<td>".$rows['Description']."</td>";
+                echo "<td>".$rows['Quantity']."</td>";
+                echo "<td>".$rows['Unit']."</td>";
+                echo "<td>".$rows['Category']."</td></tr>";
             }
         }
     }else{
-        die("Error Establishing Connection to database");
+        die("Something Went Wrong with searching. Try Refreshing the page.");
     }
     ?>
     </table>
