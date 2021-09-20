@@ -5,14 +5,6 @@ session_start();
 	include("functions.php");
 
 	$user_data = check_login($con);
-
-
-    if (isset($_POST['addEntry'])) {
-        echo "Add Entry was clicked";
-    }
-    elseif (isset($_POST['deleteEntry'])) {
-        echo "Delete Entry was clicked";
-    }
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +25,7 @@ session_start();
     <form method="post">
         <h1>Expenditure Entry</h1>
         Date of Purchase:
-        <input id="text" type="text" name="dateOfPurchase"><br><br>
+        <input id="text" type="date" name="dateOfPurchase"><br><br>
         Product Name:
         <input id="text" type="text" name="productName"><br><br>
         Description:
@@ -104,14 +96,51 @@ session_start();
 
 
     <?php
+
+
+
+
+    if (isset($_POST['addEntry']) or isset($_POST['deleteEntry'])) {
+//        $dateOfPurchase = $_POST["productName"];
+//    $productName = $_POST['productName'];
+//    $description = $_POST['description'];
+//    $quantity = $_POST['quantity'];
+//    $units = $_POST['units'];
+//    $category = $_POST['category'];
+
+        if (isset($_POST['addEntry'])) {
+            echo "Add Entry was clicked";
+
+//        if(empty($dateOfPurchase) or empty($productName) or empty($description) or empty ($quantity) or empty($units) or empty($category))
+//        {
+//
+//        }
+
+        }
+        elseif (isset($_POST['deleteEntry'])) {
+            echo "Delete Entry was clicked";
+
+
+        }
+
+    }
+
+
+    echo "<hr/>";
+
+
+
+
     //code for displaying previous tables here
     //if condition is blank, it means display everything
     $text = "";
 
 
-    $query = "select * from expenditure";
-    $results = mysqli_query($con, $query);
 
+    if(empty($query))
+    {
+        $query = "select * from expenditure";
+    }
 
     if (isset($_POST['searchValue'])) {
         $text = trim($_POST["queryText"]); //string is search bar
@@ -124,17 +153,17 @@ session_start();
             if (isset($_POST['searchValue'])) {
                 echo "Search Entry was clicked";
                 $query = "select * from expenditure where Item = '$text'";
-                $results = mysqli_query($con, $query);
-
             }
         }
     }
 
-    $orderBy = trim($_POST["columnToBeArranged"]); //string in drop down
     if (isset($_POST['orderBy'])) {
-        $orderBy = $query. " order by $orderBy ASC";
-        $results = mysqli_query($con, $orderBy);
+        $orderBy = trim($_POST["columnToBeArranged"]); //string in drop down
+        $query = $query. " order by $orderBy ASC";
     }
+
+
+    $results = mysqli_query($con, $query);
 
     if($results)
     {
