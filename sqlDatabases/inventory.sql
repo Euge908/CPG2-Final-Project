@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 16, 2021 at 03:34 PM
+-- Generation Time: Sep 21, 2021 at 12:20 PM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.7
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `expenditure` (
   `Item` varchar(100) NOT NULL,
-  `PurchaseDate` date NOT NULL,
+  `PurchaseDate` datetime NOT NULL DEFAULT current_timestamp(),
   `Description` varchar(255) DEFAULT NULL,
   `Quantity` float(7,2) NOT NULL DEFAULT 0.00,
   `Unit` enum('units','kilograms','boxes','liters','gallons') NOT NULL,
@@ -41,12 +41,17 @@ CREATE TABLE `expenditure` (
 --
 
 INSERT INTO `expenditure` (`Item`, `PurchaseDate`, `Description`, `Quantity`, `Unit`, `Category`) VALUES
-('Beef, ground', '2021-09-15', 'ground beef chuck', 3.00, 'kilograms', 'Meat/Seafood'),
-('Cabbage', '2021-09-16', 'Cabbage CS/24 Heads Prpl', 24.00, 'units', 'Vegetables'),
-('Canola Oil', '2021-09-11', NULL, 15.00, 'gallons', 'Grocery/Condiments'),
-('Milk', '2021-09-16', 'Milk 2% 4/1 GA', 2.00, 'liters', 'Dairy'),
-('Rice', '2021-09-15', 'organic white rice', 50.00, 'kilograms', 'Grain'),
-('Salmon', '2021-09-16', 'Salmon Atlantic', 18.00, 'kilograms', 'Meat/Seafood');
+('Beef, ground', '2021-09-15 00:00:00', 'ground beef chuck', 3.00, 'kilograms', 'Meat/Seafood'),
+('Cabbage', '2021-09-16 00:00:00', 'Cabbage CS/24 Heads Prpl', 24.00, 'units', 'Vegetables'),
+('Canola Oil', '2021-09-11 00:00:00', NULL, 15.00, 'gallons', 'Grocery/Condiments'),
+('Milk', '2021-09-16 00:00:00', 'Milk 2% 4/1 GA', 2.00, 'liters', 'Dairy'),
+('Rice', '2021-09-15 00:00:00', 'organic white rice', 50.00, 'kilograms', 'Grain'),
+('Salmon', '2021-09-16 00:00:00', 'Salmon Atlantic', 18.00, 'kilograms', 'Meat/Seafood'),
+('ground beef chuck', '2021-09-21 00:00:00', 'ground beef chuck', 11.00, 'kilograms', 'Meat/Seafood'),
+('ground beef chuck', '2021-09-21 00:00:00', 'ground beef chuck', 112.00, 'kilograms', 'Meat/Seafood'),
+('ground beef chuck', '2021-09-21 00:00:00', 'ground beef chuck', 11.00, 'kilograms', 'Meat/Seafood'),
+('All-purpose flour', '2021-09-21 18:15:07', 'whole wheat', 20.00, 'kilograms', 'Grain'),
+('Cheese', '2021-09-21 18:17:50', 'cheddar', 11.33, 'kilograms', 'Dairy');
 
 -- --------------------------------------------------------
 
