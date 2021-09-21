@@ -5,6 +5,7 @@ session_start();
 	include("functions.php");
 
 	$user_data = check_login($usersConnection);
+//    echo $user_data['privelege'];
 
 ?>
 
@@ -102,27 +103,41 @@ session_start();
 
 
     if (isset($_POST['addEntry']) or isset($_POST['deleteEntry'])) {
-//        $dateOfPurchase = $_POST["productName"];
-//    $productName = $_POST['productName'];
-//    $description = $_POST['description'];
-//    $quantity = $_POST['quantity'];
-//    $units = $_POST['units'];
-//    $category = $_POST['category'];
+        $dateOfPurchase = $_POST["dateOfPurchase"];
+        $productName = $_POST['productName'];
+        $description = $_POST['description'];
+        $quantity = $_POST['quantity'];
+        $units = $_POST['units'];
+        $category = $_POST['category'];
+        $modifyQuery = "";
 
         if (isset($_POST['addEntry'])) {
-            echo "Add Entry was clicked";
-
-//        if(empty($dateOfPurchase) or empty($productName) or empty($description) or empty ($quantity) or empty($units) or empty($category))
-//        {
-//
-//        }
+            if(!empty($dateOfPurchase) or !empty($productName) or !empty($description) or !empty ($quantity) or !empty($units) or !empty($category))
+            {
+                $modifyQuery = "insert into  expenditure (Item, PurchaseDate, Description, Quantity, Unit, Category) values ('$productName', '$dateOfPurchase', '$description', '$quantity', '$units','$category')";
+            }else{
+                echo "Error: One or more empty fields Detected. Input something valid, and try again. ";
+            }
 
         }
         elseif (isset($_POST['deleteEntry'])) {
-            echo "Delete Entry was clicked";
 
-
+            //()
+            if(!empty($dateOfPurchase) or !empty($productName) or !empty($description) or !empty ($quantity) or !empty($units) or !empty($category))
+            {
+                $modifyQuery = "delete from expenditure where Item ='$productName' AND PurchaseDate = '$dateOfPurchase' AND Description = '$description' AND Quantity ='$quantity' AND Unit = '$units' AND Category = '$category'";
+            }else{
+                echo "Error: One or more empty fields Detected. Input something valid, and try again. ";
+            }
         }
+
+
+        //add condition to check if modifyQuery was successful
+        if(!mysqli_query($inventoryConnection, $modifyQuery))
+        {
+            die("Something went wrong with searching. Try again.");
+        }
+
 
     }
 
