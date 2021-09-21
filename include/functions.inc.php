@@ -49,8 +49,3 @@ function parse_input($string) {
     // Parse input string in an attempt to prevent Cross-site scripting
     return htmlspecialchars(stripslashes(trim($string)));
 }
-
-function closeSQLConnections() {
-    mysqli_close($inventoryConnection);
-    mysqli_close($usersConnection);
-}
