@@ -27,16 +27,16 @@ session_start();
     <form method="post">
         <h1>Expenditure Entry</h1>
         Date of Purchase:
-        <input id="text" type="date" name="dateOfPurchase"><br><br>
+        <input id="text" type="date" name="dateOfPurchase" required><br><br>
         Product Name:
-        <input id="text" type="text" name="productName"><br><br>
+        <input id="text" type="text" name="productName" required><br><br>
         Description:
-        <input id="text" type="text" name="description"><br><br>
+        <input id="text" type="text" name="description" required><br><br>
         Quantity:
-        <input id="text" type="text" name="quantity"><br><br>
+        <input id="text" type="text" name="quantity" required><br><br>
         Units:
 
-        <select id="text" type="text" name="units">
+        <select id="text" type="text" name="units" required>
             <option value='units'>Units</option>
             <option value="kilograms">Kilograms</option>
             <option value="boxes">Boxes</option>
@@ -47,7 +47,7 @@ session_start();
         <br><br>
         Category:
 
-        <select id="text" type="text" name="category">
+        <select id="text" type="text" name="category" required>
             <option value='Meat/Seafood'>Meat/Seafood</option>
             <option value="Vegetables">Vegetables</option>
             <option value="Grocery/Condiments">Grocery/Condiments</option>
@@ -103,12 +103,13 @@ session_start();
 
 
     if (isset($_POST['addEntry']) or isset($_POST['deleteEntry'])) {
-        $dateOfPurchase = $_POST["dateOfPurchase"];
-        $productName = $_POST['productName'];
-        $description = $_POST['description'];
-        $quantity = $_POST['quantity'];
-        $units = $_POST['units'];
-        $category = $_POST['category'];
+
+        $dateOfPurchase = trim($_POST["dateOfPurchase"]);
+        $productName = trim($_POST['productName']);
+        $description = trim($_POST['description']);
+        $quantity = trim($_POST['quantity']);
+        $units = trim($_POST['units']);
+        $category = trim($_POST['category']);
         $modifyQuery = "";
 
         if (isset($_POST['addEntry'])) {
@@ -150,36 +151,31 @@ session_start();
     //code for displaying previous tables here
     //if condition is blank, it means display everything
     $text = "";
+    $query = "select * from expenditure";
 
-
-
-    if(empty($query))
+    if(isset($_POST['searchValue']) or isset($_POST['orderBy']))
     {
-        $query = "select * from expenditure";
-    }
+        if (isset($_POST['searchValue'])) {
+            $text = trim($_POST["queryText"]); //string is search bar
 
-    if (isset($_POST['searchValue'])) {
-        $text = trim($_POST["queryText"]); //string is search bar
+            if(empty($text))
+            {
+                echo "Empty Text Field. Enter Text to query.";
+            }else{
 
-        if(empty($text))
-        {
-            echo "Empty Text Field. Enter Text to query.";
-        }else{
-
-            if (isset($_POST['searchValue'])) {
-                echo "Search Entry was clicked";
-                $query = "select * from expenditure where Item = '$text'";
+                if (isset($_POST['searchValue'])) {
+                    echo "Search Entry was clicked";
+                    $query = "select * from expenditure where Item = '$text'";
+                }
             }
+        } else if (isset($_POST['orderBy'])) {
+            $orderBy = trim($_POST["columnToBeArranged"]); //string in drop down
+            $query = $query. " order by $orderBy ASC";
         }
     }
 
-    if (isset($_POST['orderBy'])) {
-        $orderBy = trim($_POST["columnToBeArranged"]); //string in drop down
-        $query = $query. " order by $orderBy ASC";
-    }
-
-
     $results = mysqli_query($inventoryConnection, $query);
+    $currentTable = $query;
 
     if($results)
     {
