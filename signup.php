@@ -3,8 +3,8 @@
 //Normally you would encrypt and hash stuff with databases for extra security, but idk if this would be possible given time
 session_start();
 
-	include("connections.php");
-	include("functions.php");
+	include("./include/connections.inc.php");
+	include("./include/functions.inc.php");
 
 	if($_SERVER['REQUEST_METHOD'] == "POST")
 	{

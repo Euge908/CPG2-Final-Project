@@ -2,8 +2,8 @@
 // TODO: remove comment on session, include, n user_data after we have user db
 //session_start();
 
-include("connections.php");
-include("functions.php");
+include("./include/connections.inc.php");
+include("./include/functions.inc.php");
 //$user_data = check_login($con);
 
 // Retrieve the latest inventory, if any
@@ -75,8 +75,9 @@ mysqli_free_result($result);  // free memory
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $query = "insert into stockusage values ";
         foreach ($_POST['input'] as $row) {
-            $query .= "(" .$row['item'] .", " .$row['category'] .", CURDATE(), 'John Kayne', " //.$_SESSION['user_id'] .", "
-                      .$row['unit'] .", " . $row['quantity'] ."), ";
+            $query .= "(" .parse_input($row['item']) .", " .parse_input($row['category'])
+                      .", CURDATE(), 'John Kayne', " //.$_SESSION['user_id'] .", "
+                      .parse_input($row['unit']) .", " . parse_input($row['quantity']) ."), ";
         }
         $query = rtrim($query, ", ");  // Remove trailing ', ' from foreach loop
 
@@ -92,5 +93,5 @@ mysqli_free_result($result);  // free memory
 </html>
 
 <?php
-mysqli_close($con);
+
 ?>
