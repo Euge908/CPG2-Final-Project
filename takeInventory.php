@@ -2,14 +2,16 @@
 // TODO: remove comment on session, include, n user_data after we have user db
 //session_start();
 
-include("connectionInventory.inc.php");
-include("functions.inc.php");
+include("connections.php");
+include("functions.php");
 //$user_data = check_login($con);
 
 // Retrieve the latest inventory, if any
 $query = "select Item, Category, Unit, Quantity from stockusage 
           where Date = (select MAX(Date) from stockusage) group by Item;";
-$result = mysqli_query($con, $query);
+
+
+$result = mysqli_query($inventoryConnection, $query);
 if (mysqli_num_rows($result) > 0) {
     $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
 } else {

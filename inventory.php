@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-include("connectionInventory.inc.php");
-include("functions.inc.php");
-$user_data = check_login($con);
+include("connections.php");
+include("functions.php");
+$user_data = check_login($usersConnection);
 
 
 

@@ -3,8 +3,8 @@
 //Normally you would encrypt and hash stuff with databases for extra security, but idk if this would be possible given time
 session_start();
 
-	include("connection.inc.php");
-	include("functions.inc.php");
+	include("connections.php");
+	include("functions.php");
 
 	if($_SERVER['REQUEST_METHOD'] == "POST")
 	{
@@ -20,7 +20,7 @@ session_start();
 			$user_id = random_num(20);
 			$query = "insert into  users (name, user_id, email, password, privelege) values ('$name','$user_id','$email','$password', '$privelege')";
 
-			mysqli_query($con, $query);
+			mysqli_query($usersConnection, $query);
 			header("Location: login.php");
 			die;
 		}else

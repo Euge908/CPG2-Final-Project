@@ -2,8 +2,8 @@
 
 session_start();
 
-	include("connection.inc.php");
-	include("functions.inc.php");
+	include("connections.php");
+	include("functions.php");
 
 
 	if($_SERVER['REQUEST_METHOD'] == "POST")
@@ -17,7 +17,7 @@ session_start();
 		{
 			//read from database
 			$query = "select * from users where email = '$email' limit 1";
-			$result = mysqli_query($con, $query);
+			$result = mysqli_query($usersConnection, $query);
 
 			if($result)
 			{
@@ -95,8 +95,12 @@ session_start();
             Password:
             <input id="text" type="password" name="password"><br><br>
 
+
             <input id="button" type="submit" value="Sign In"><br><br>
+            <a href="signup.php">Sign Up</a>
         </form>
     </div>
+
+
 </body>
 </html>

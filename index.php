@@ -1,10 +1,11 @@
 <?php 
 session_start();
 
-	include("connection.inc.php");
-	include("functions.inc.php");
+	include("connections.php");
+	include("functions.php");
 
-	$user_data = check_login($con);
+	$user_data = check_login($usersConnection);
+
 ?>
 
 <!DOCTYPE html>
@@ -163,7 +164,7 @@ session_start();
     }
 
 
-    $results = mysqli_query($con, $query);
+    $results = mysqli_query($inventoryConnection, $query);
 
     if($results)
     {
