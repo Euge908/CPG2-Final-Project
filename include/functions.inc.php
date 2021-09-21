@@ -49,3 +49,16 @@ function parse_input($string) {
     // Parse input string in an attempt to prevent Cross-site scripting
     return htmlspecialchars(stripslashes(trim($string)));
 }
+
+function get_enum_values($connection, $table, $field ) {
+    // Gets enum values of a field from database
+    // Source: https://codereview.stackexchange.com/a/24021
+    $query = " SHOW COLUMNS FROM `$table` LIKE '$field' ";
+    $result = mysqli_query($connection, $query);
+    $row = mysqli_fetch_array($result);
+    // extract the values enclosed in single quotes and separated by commas
+    $regex = "/'(.*?)'/";
+    preg_match_all( $regex , $row[1], $enum_array );
+    $enum_fields = $enum_array[1];
+    return( $enum_fields );
+}
