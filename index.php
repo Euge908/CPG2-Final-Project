@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 
 	include("./include/connections.inc.php");
@@ -6,6 +6,9 @@ session_start();
 
 	$user_data = check_login($usersConnection);
 //    echo $user_data['privelege'];
+
+    $danger = "";
+
 
 ?>
 
@@ -16,13 +19,14 @@ session_start();
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
+
 </head>
 <body>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="index.php">Restaurant Inventory System</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -62,10 +66,20 @@ session_start();
 
 <div class = "container">
 
+
+
+    <br>
     <div class="alert alert-info" role="alert">
         Hello, <?php echo $user_data['name']; ?>. How are you today?
     </div>
 
+    <?php
+    ?>
+
+
+    <?php
+        echo $danger;
+    ?>
 
     <h1 class = "pb-4 mt-4 mb-4 border-bottom">Expenditure Entry</h1>
 
@@ -76,116 +90,124 @@ session_start();
         <div class="row mb-3">
             <label for="dateOfPurchase" class="col-sm-2 col-form-label">Date of Purchase</label>
             <div class="col-sm-10">
-                <input input id="text" type="date" name="dateOfPurchase" requiredclass="form-control" id="dateOfPurchase">
+                <input input id="text" type="date" name="dateOfPurchase" requiredclass="form-control" id="dateOfPurchase" required>
+            </div>
+        </div>
+
+        <!--Product Name-->
+        <div class="row mb-3">
+            <label for="productName" class="col-sm-2 col-form-label">Product Name:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="productName" name="productName" required>
+            </div>
+        </div>
+
+        <!--Description-->
+        <div class="row mb-3">
+            <label for="description" class="col-sm-2 col-form-label">Description: </label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="description" name="description" required>
+            </div>
+        </div>
+
+        <!--Quantity-->
+        <div class="row mb-3">
+            <label for="quantity" class="col-sm-2 col-form-label">Quantity: </label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="quantity" name="quantity" required>
             </div>
         </div>
 
 
+        <!--Units-->
         <div class="row mb-3">
-            <label for="inputPassword3" class="col-sm-2 col-form-label">Product Name:</label>
+            <label class="col-sm-2 col-form-label" for="units">Units</label>
             <div class="col-sm-10">
-                <input type="password" class="form-control" id="inputPassword3">
-            </div>
-        </div>
 
-        <div class="row mb-3">
-            <label class="col-sm-2 col-form-label" for="preference">Preference</label>
-            <div class="col-sm-10">
-                <select class="form-select" id="preference">
-                    <option selected>Choose...</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                <select class="form-select" id="units" type="text" name="units" required>
+                    <option value='units'>Units</option>
+                    <option value="kilograms">Kilograms</option>
+                    <option value="boxes">Boxes</option>
+                    <option value="liters">Liters</option>
+                    <option value="gallons">Gallons</option>
                 </select>
             </div>
         </div>
 
 
-        <button type="submit" class="text-right btn btn-primary">Add entry</button>
-        <button type="submit" class="text-right btn btn-danger">Delete</button>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="category">Category</label>
+            <div class="col-sm-10">
+                <select class="form-select" id="category" name = "category" required>
+                    <option value='Meat/Seafood'>Meat/Seafood</option>
+                    <option value="Vegetables">Vegetables</option>
+                    <option value="Grocery/Condiments">Grocery/Condiments</option>
+                    <option value="Dairy">Dairy</option>
+                    <option value="Grain">Grain</option>
+                    <option value="Fruit">Fruit</option>
+                    <option value="Cutlery/Utensils">Cutlery/Utensils</option>
+                    <option value="Major Equipment">Major Equipment</option>
+                    <option value="Minor Equipment">Minor Equipment</option>
+                </select>
+            </div>
+        </div>
 
+
+    <!--TODO: Change BUTTON colors-->
+        <button type="submit" name="addEntry" value="Add Entry" class="text-right btn btn-success"> Add Entry</button>
+        <button type="submit" name="deleteEntry" value="Delete Entry" class="text-right btn btn-danger">Delete Entry</button>
     </form>
 
 
-    <form method="post">
-
-        <div class="form-group pb-2 mt-4 mb-2 ">
-
-        <input id="text" class="form-control email" type="text" name="productName" required>
-        </div>
-
-        <div class="form-group pb-2 mt-4 mb-2 ">
-        Description:
-        <input id="text" class="form-control email" type="text" name="description" required>
-        </div>
-
-        <div class="form-group pb-2 mt-4 mb-2 ">
-        Quantity:
-
-        <input class="form-control email"  id="text" type="text" name="quantity" required>
-        Units:
-        </div>
-
-        <div class="form-group pb-2 mt-4 mb-2 ">
-        <select id="text" type="text" name="units" required>
-            <option value='units'>Units</option>
-            <option value="kilograms">Kilograms</option>
-            <option value="boxes">Boxes</option>
-            <option value="liters">Liters</option>
-            <option value="gallons">Gallons</option>
-        </select>
-        </div>
-
-        <div class="form-group pb-2 mt-4 mb-2 ">
-        Category:
-
-        <select id="text" type="text" name="category" required>
-            <option value='Meat/Seafood'>Meat/Seafood</option>
-            <option value="Vegetables">Vegetables</option>
-            <option value="Grocery/Condiments">Grocery/Condiments</option>
-            <option value="Dairy">Dairy</option>
-            <option value="Grain">Grain</option>
-            <option value="Fruit">Fruit</option>
-            <option value="Cutlery/Utensils">Cutlery/Utensils</option>
-            <option value="Major Equipment">Major Equipment</option>
-            <option value="Minor Equipment">Minor Equipment</option>
-        </select>
-        </div>
-
-        <input id="button" type="submit" name="addEntry" value="Add Entry">
-        <input id="button" type="submit" name="deleteEntry" value="Delete Entry">
-    </form>
-
-    <h1>Previous Expenditure Entries</h1>
-
+    <h1 class = "pb-4 mt-4 mb-4 border-bottom">Previous Expenditure Entries</h1>
     <form method = "post">
-        Query text:
-        <input id="button" type="text" name="queryText" placeholder="Entry field">
 
-        Filter by:
-        <select id="text" type="text" name="columnToBeArranged">
-            <option value='Item'>Item</option>
-            <option value="PurchaseDate">PurchaseDate</option>
-            <option value="Description">Description</option>
-            <option value="Quantity">Quantity</option>
-            <option value="Unit">Unit</option>
-            <option value="Category">Category</option>
-        </select>
+        <div class = "form-row align-items-center">
+            <div class = "col-auto">
+                <label class="form-label" for="queryText">
+                    Query text:
+                </label>
+                <input class="form-select mb-2" id="queryText" type="text" name="queryText" placeholder="Entry field">
+            </div>
 
-        <input id="button" type="submit" name="orderBy" value="Order By">
-        <input id="button" type="submit" name="searchValue" value="Search Value">
+
+            <div class = "col-auto">
+
+                <label class="form-label" for="columnToBeArranged">
+                Filter by:
+                </label>
+
+                <select class="form-select mb-2" id="columnToBeArranged" type="text" name="columnToBeArranged">
+                    <option value='Item'>Item</option>
+                    <option value="PurchaseDate">PurchaseDate</option>
+                    <option value="Description">Description</option>
+                    <option value="Quantity">Quantity</option>
+                    <option value="Unit">Unit</option>
+                    <option value="Category">Category</option>
+                </select>
+            </div>
+
+            <div class = "col-auto">
+                <button class="btn btn-primary mb-2" id="orderButton" type="submit" name="orderBy">Order By</button>
+                <button class="btn btn-primary mb-2" id="searchButton" type="submit" name="searchValue">Search</button>
+            </div>
+        </div>
     </form>
 
-    <table>
-        <tr>
-            <td>Item</td>
-            <td>Purchase Date</td>
-            <td>Description</td>
-            <td>Quantity</td>
-            <td>Unit</td>
-            <td>Category</td>
-        </tr>
 
+
+    <table class="table table-hover">
+
+        <thead class = "table-dark ">
+        <tr>
+            <td scope="col">Item</td>
+            <td scope="col">Purchase Date</td>
+            <td scope="col">Description</td>
+            <td scope="col">Quantity</td>
+            <td scope="col">Unit</td>
+            <td scope="col">Category</td>
+        </tr>
+        </thead>
 
 </div>
 
@@ -208,12 +230,19 @@ session_start();
         $modifyQuery = "";
 
         if (isset($_POST['addEntry'])) {
-            if(!empty($dateOfPurchase) or !empty($productName) or !empty($description) or !empty ($quantity) or !empty($units) or !empty($category))
+            echo !$dateOfPurchase;
+
+            if(!empty($productName) or !empty($description) or !empty ($quantity) or !empty($units) or !empty($category))
             {
                 $modifyQuery = "insert into  expenditure (Item, PurchaseDate, Description, Quantity, Unit, Category) values ('$productName', '$dateOfPurchase', '$description', '$quantity', '$units','$category')";
             }else{
-                echo "Error: One or more empty fields Detected. Input something valid, and try again. ";
+                $danger = "<div class=\"alert alert-danger\" role=\"alert\">
+                One or more empty Fields Detected!
+                </div>";
+                echo "HELLO";
+
             }
+
 
         }
         elseif (isset($_POST['deleteEntry'])) {
@@ -223,7 +252,9 @@ session_start();
             {
                 $modifyQuery = "delete from expenditure where Item ='$productName' AND PurchaseDate = '$dateOfPurchase' AND Description = '$description' AND Quantity ='$quantity' AND Unit = '$units' AND Category = '$category'";
             }else{
-                echo "Error: One or more empty fields Detected. Input something valid, and try again. ";
+                $danger = "<div class=\"alert alert-danger\" role=\"alert\">
+                One or more empty Fields Detected!
+                </div>";
             }
         }
 
@@ -231,15 +262,16 @@ session_start();
         //add condition to check if modifyQuery was successful
         if(!mysqli_query($inventoryConnection, $modifyQuery))
         {
-            die("Something went wrong with searching. Try again.");
+            $danger = "<div class=\"alert alert-danger\" role=\"alert\">
+                Something went wrong!
+                </div>";
+
         }
 
 
     }
-
-
-    echo "<hr/>";
-
+    echo "<br>";
+    echo "<br>";
 
 
 
@@ -255,7 +287,9 @@ session_start();
 
             if(empty($text))
             {
-                echo "Empty Text Field. Enter Text to query.";
+                $danger = "<div class=\"alert alert-danger\" role=\"alert\">
+                One or more empty Fields Detected!
+                </div>";
             }else{
 
                 if (isset($_POST['searchValue'])) {
@@ -288,9 +322,12 @@ session_start();
             }
         }
     }else{
-        die("Something Went Wrong with searching. Try Refreshing the page.");
-    }
+        $danger = "<div class=\"alert alert-danger\" role=\"alert\">
+                Something went wrong with the database. Try again later.
+                </div>";    }
+
     ?>
     </table>
+
 </body>
 </html>
