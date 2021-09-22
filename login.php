@@ -5,6 +5,7 @@ session_start();
 	include("./include/connections.inc.php");
 	include("./include/functions.inc.php");
 
+	$error = "";
 
 	if($_SERVER['REQUEST_METHOD'] == "POST")
 	{
@@ -25,7 +26,6 @@ session_start();
 				{
 
 					$user_data = mysqli_fetch_assoc($result); //user data to access stuff
-                    echo $user_data["date"];
 
 
 					if($user_data['password'] === $password)
@@ -37,11 +37,16 @@ session_start();
 					}
 				}
 			}
-			
-			echo "Invalid email or password!";
+
+
+			$error = "<div class=\"alert alert-warning\" role=\"alert\">
+                  Invalid email or password!
+                </div>";
 		}else
 		{
-			echo "Invalid email or password!";
+            $error = "<div class=\"alert alert-warning\" role=\"alert\">
+                  Invalid email or password!
+                </div>";
 		}
 	}
 
@@ -51,54 +56,55 @@ session_start();
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Login</title>
+	<title>Login Page</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
 </head>
 <body>
 
-	<style type="text/css">
-	
-	#text{
-
-		height: 25px;
-		border-radius: 5px;
-		padding: 4px;
-		border: solid thin #aaa;
-		width: 100%;
-	}
-
-	#button{
-
-		padding: 10px;
-		width: 100px;
-		color: white;
-		background-color: lightblue;
-		border: none;
-	}
-
-	#box{
-
-		background-color: grey;
-		margin: auto;
-		width: 300px;
-		padding: 20px;
-	}
-
-	</style>
-
-    <div id="box">
-        <!--		I'll style later using bootstrap.-->
-        <!--        NOTE TO SELF: Don't touch the name tags-->
-        <form method="post">
-            <div style="font-size: 20px;margin: 10px;color: white;">Log In</div>
-            Email:
-            <input id="text" type="text" name="email"><br><br>
-            Password:
-            <input id="text" type="password" name="password"><br><br>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 
-            <input id="button" type="submit" value="Sign In"><br><br>
-            <a href="signup.php">Sign Up</a>
-        </form>
+    <div class = "container">
+
+
+        <div class="container h-100">
+            <div class="row h-100 justify-content-center align-items-center">
+                <div class="col-10 col-md-8 col-lg-6">
+
+
+                    <!-- Form -->
+                    <form class="" action="" method="post">
+                        <h1>Login Page</h1>
+
+                        <?php
+                        echo $error
+                        ?>
+                        <!-- Input fields -->
+                        <div class="form-group pb-2 mt-4 mb-2 ">
+                            <label for="email">Email:</label>
+                            <input type="text" class="form-control email" id="email" placeholder="Enter Email" name="email">
+                        </div>
+                        <div class="form-group pb-2 mt-4 mb-2 ">
+                            <label for="password">Password:</label>
+                            <input type="password" class="form-control password" id="password" placeholder="Enter Password" name="password">
+                        </div>
+
+
+
+                        <button type="submit" class="btn btn-primary">Login</button>
+                        <a class="btn btn-primary" href = "signup.php">Sign Up</a>
+                        <!-- End input fields -->
+                    </form>
+
+
+                    <!-- Form end -->
+                </div>
+            </div>
+        </div>
+
     </div>
 
 
