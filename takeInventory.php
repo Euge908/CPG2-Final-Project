@@ -80,8 +80,6 @@ mysqli_free_result($result);  // free memory
             $query .=
                 sprintf("('%s', '%s', '%s', '%s', '%s', '%f'), ", parse_input($row['item']), parse_input($row['category']),
                         'CURDATE()', $user_data['name'], parse_input($row['unit']), parse_input($row['quantity']));
-
-
         }
 
         echo $query . "<br><br>";

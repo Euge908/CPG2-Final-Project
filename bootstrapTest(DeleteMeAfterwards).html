@@ -5,89 +5,140 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-    <!--Custom CSS-->
-    <link rel="stylesheet" href="formStyles.css">
+    <!--    Style Sheets V5 not V4 or V3    -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
 
     <title>Hello, world!</title>
 </head>
 <body>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-<!-- example 7 - center on mobile 2-->
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="d-flex flex-grow-1">
-        <span class="w-100 d-lg-none d-block"><!-- hidden spacer to center brand on mobile --></span>
-        <a class="navbar-brand" href="#">
-            TitleOfWebsite
-        </a>
-        <div class="w-100 text-right">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar7">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse " id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <!--current active tab-->
+                    <a class="nav-link active px-4" aria-current="page" href="#">Generate Cogs</a>
+                </li>
+
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle px-4" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Take Inventory
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link px-4" href="#">Expenditures</a>
+                </li>
+
+            </ul>
         </div>
-    </div>
-
-    <div class="collapse navbar-collapse flex-grow-1 text-right" id="myNavbar7">
-        <ul class="navbar-nav ml-auto flex-nowrap">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Inventory
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Take Inventory</a>
-                    <a class="dropdown-item" href="#">view Inventory</a>
-                    <!--                    <div class="dropdown-divider"></div>-->
-                    <a class="dropdown-item" href="#">Edit Categories/ Items</a>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <a href="#" class="nav-link">Generate COGS</a>
-            </li>
-
-            <li class="nav-item">
-                <a href="#" class="nav-link">Expenditures</a>
-            </li>
-        </ul>
     </div>
 </nav>
 
-<br>
+
+
+<div class = "container">
 
 
 
-
-
-<h1>Welcome to RIS!</h1>
-
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
-
-
-<form class = "center_div">
-    <div class="form-group">
-        <label for="exampleInputEmail1">Email address</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    <div class = "pb-2 mt-4 mb-2 border-bottom">
+        <h1>This is the index page</h1>
     </div>
-    <div class="form-group">
-        <label for="exampleInputPassword1">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+
+    <br>
+
+
+    <p>Hello user</p>
+
+
+    <div class = "pb-2 mt-4 mb-2 border-bottom">
+        <h1>Expenditure Entry</h1>
     </div>
-    <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+
+    <form>
+        <div class="row mb-3">
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+            <div class="col-sm-10">
+                <input type="email" class="form-control" id="inputEmail3">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="inputPassword3">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+                <label class="col-sm-2 col-form-label" for="preference">Preference</label>
+                    <div class="col-sm-10">
+                        <select class="form-select" id="preference">
+                            <option selected>Choose...</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+        </div>
+
+
+        <button type="submit" class="text-right btn btn-primary">Add entry</button>
+        <button type="submit" class="text-right btn btn-danger">Delete</button>
+        
+    </form>
+
+    <div class = "pb-2 mt-4 mb-2 border-bottom">
+        <h1>Previous Expenditure Entries</h1>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+    <table class="table table-hover">
+        <thead class = "table-dark ">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td colspan="2">Larry the Bird</td>
+            <td>@twitter</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
 
 
 
