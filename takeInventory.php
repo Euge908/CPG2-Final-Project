@@ -161,7 +161,7 @@ mysqli_free_result($result);  // free memory
         $result = mysqli_query($inventoryConnection, $query);
         if ($result) {
             echo "Successfully recorded new inventory entry!";
-            header("Location: viewInventory.php");  // Redirect to view inventory webpage
+            echo "<a href = 'viewInventory.php'>";  // Redirect to view inventory webpage
         } else {
             echo "An error occurred. Please verify inputs.";
         }
