@@ -9,19 +9,6 @@ $user_data = check_login($usersConnection);
 $unitOptions = get_enum_values($inventoryConnection, "StockUsage", "Unit");
 $categoryOptions = get_enum_values($inventoryConnection, "StockUsage", "Category");
 
-// Retrieve the latest inventory, if any
-$query = "select * from stockusage where Date = (select MAX(Date) from stockusage) group by Item;";
-
-$result = mysqli_query($inventoryConnection, $query);
-
-if (mysqli_num_rows($result) > 0) {
-    $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
-} else {
-    echo "No inventory data yet.";
-    $rows = NULL;  // flag for further operation for no records to display
-}
-mysqli_free_result($result);  // free memory
-
 ?>
 
 
@@ -35,124 +22,111 @@ mysqli_free_result($result);  // free memory
     <title>Take Inventory</title>
 </head>
 <body>
-<a href="logout.php">Logout</a>
-<h1>View Inventory</h1>
-Hello, <?php echo $user_data['name'];?>!
+    <a href="logout.php">Logout</a>
+    <h1>View Inventory</h1>
+    Hello, <?php echo $user_data['name'];?>! <br><br>
+
+    <form method = "post">
+        Search Item:
+        <input type="text" name="searchItem" placeholder="Enter Item">
+
+        Filter by:
+        <select type="text" name="columnToBeArranged">
+            <option value='Item'>Item</option>
+            <option value="Category">Category</option>
+            <option value="Unit">Unit</option>
+            <option value="BegInvent">Beginning Inventory</option>
+            <option value="Quantity">End Inventory</option>
+        </select>
+
+        <input type="submit" name="orderBy" value="Order By">
+        <input type="submit" name="search" value="Search Value"><br><br>
+    </form>
+
+    <table>
+        <tr>
+            <th>Item Name</th>
+            <th>Category</th>
+            <th>Measurement Units</th>
+            <th>Beginning Inventory</th>
+            <th>Purchases</th>
+            <th>Total</th>
+            <th>End Inventory</th>
+            <th>Usage</th>
+            <th> </th>
+        </tr>
+
+    <!-- Cost of Goods (COGs) generation based on latest inventory and process search and filter buttons-->
+    <?php
+    $text = "";
+
+    // Retrieve the latest inventory, if any, along with the quantity purchased and beginning inventory
+    $query = "SELECT A.*, IFNULL(B.Quantity, 0.00) as Purchases,
+           CASE WHEN C.Date < (SELECT MAX(Date) from stockusage) THEN C.Quantity ELSE 0.00 END as BegInvent
+           FROM stockusage A
+           LEFT JOIN expenditure B ON A.Item = B.Item AND A.Date = Date(B.PurchaseDate)
+           LEFT JOIN stockusage C ON A.Item = C.Item
+           WHERE A.Date = (select MAX(Date) from stockusage) GROUP BY Item";
 
 
-        <!-- Display last inventory records, if any-->
-        <?php
-        if (!is_null($rows)) {
-            echo "Here are the latest inventory updated last " .$rows[0]['Date'] ."<br>";
-            echo "<table>
-                    <tr>
-                        <th>Item</th>
-                        <th>Category</th>
-                        <th>Measurement Units</th>
-                        <th>Quantity</th>
-                        <th> </th>
-                    </tr>
-            ";
+    if (isset($_POST['search']) or isset($_POST['orderBy'])) {
+        if (isset($_POST['search'])) {
+            $text = parse_input($_POST["searchItem"]); //string is search bar
+
+            if(empty($text)) {
+                echo "Empty Text Field. Enter an item name to search.<br>";
+            } else {
+                echo "Search Entry was clicked. <br>";
+                $query .= " HAVING Item = '$text'";
+            }
+        } else if (isset($_POST['orderBy'])) {
+            $orderBy = parse_input($_POST["columnToBeArranged"]); //string in drop down
+            $query .= " ORDER BY $orderBy ASC";
+        }
+    }
+
+    $result = mysqli_query($inventoryConnection, $query);
+    if ($result) {
+
+        if (mysqli_num_rows($result) > 0) {
+            // Fetch all rows from query
+            $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+            echo "<br>Here are the latest inventory updated last " .$rows[0]['Date'] .".<br><br>";
             foreach ($rows as $row) {
-                // Date
-                //Checker
-                //Item Name
-                //Category
-                //Unit of measurement
-                //Beginning Inventory = last inventory’s end inventory (retrieved from stock usage table (yesterday’s record))
-                //Purchases = quantity purchased since last inventory (retrieved from purchase table)
-                //Total = total quantity prior usage = beginning inventory + purchases
-                //End Inventory = input quantity
-                //Quantity used =usage = total - ending inventory
+                $total = $row['BegInvent']+$row['Purchases'];  // Total quantity prior usage
                 echo "<tr>";
                 echo "<td>" .$row['Item'] ."</td>";
                 echo "<td>" .$row['Category'] ."</td>";
                 echo "<td>" .$row['Unit'] ."</td>";
-                echo "<td>" .$row['Quantity'] ."</td>";
+                echo "<td style='text-align:right'>" .$row['BegInvent'] ."</td>";  // last inventory’s end inventory
+                echo sprintf("<td style='text-align:right'>%.2f</td>", $row['Purchases']); // Quantity purchased since last inventory
+                echo sprintf("<td style='text-align:right'>%.2f</td>", $total);
+                echo "<td style='text-align:right'>" .$row['Quantity'] ."</td>";  // End Inventory (current quantity)
+                if ($total > $row['Quantity']) {
+                    // Quantity used = total - ending inventory
+                    echo sprintf("<td style='text-align:right'>%.2f</td>", $total - $row['Quantity']);
+                } else {
+                    echo "<td style='text-align:right'>0.00</td>";
+                }
                 echo "</tr>";
             }
             unset($row);  // break reference with the last element as it is retained even after the loop
+
         } else {
-            echo "Nothing in inventory yet. Please take inventory first to record the latest stock usage.";
-        }
-        ?>
-
-        </tbody>
-    </table>
-    <br> <input id='button' type='submit' name='addEntry' value='Add Entries'/>
-    <button type='button' name='newItem' onclick='addRow();'>Insert New Item</button> <br>
-</form>
-
-<!-- JS function for adding and deleting row to an existing table
-Source: https://adnan-tech.com/php-add-dynamic-rows-in-table-tag/  -->
-<script type="text/javascript">
-    let unitOptions = <?php echo json_encode($unitOptions);?>;
-    let categoryOptions = <?php echo json_encode($categoryOptions);?>;
-    let size = parseInt(<?php echo json_encode($ctr);?>);
-
-    function addRow() {
-        let html = "<tr>";
-        html += "<td><input type='text' name='input["+size+"][item]' required/></td>";
-        html += "<td><select name='input["+size+"][category]' required>" +
-            "<option value='' selected disabled hidden>Choose here</option>";
-        for (const option of categoryOptions) {
-            html += "<option value=" + option + ">" + option + "</option>";
-        }
-        html += "</td><td>";
-        html += "<select name='input["+size+"][unit]' required style='width: 100%'>" +
-            "<option value='' selected disabled hidden>Choose here</option>";
-        for (const option of unitOptions) {
-            html += "<option value=" + option + ">" + option + "</option>";
-        }
-        html += "</td>";
-        html += "<td><input type='number' name='input["+size+"][quantity]' " +
-            "step='0.01' min='0' max='99999.99' required/></td>";
-        html += "<td><button type='button' onclick='deleteRow(this);'>Delete</button></td>"
-        html += "</tr>";
-
-        if (size === 0) {
-            document.getElementById("tbodyOfInput").deleteRow(0);
+            echo "Nothing in inventory yet. Please take inventory first to record the latest stock usage. <br><br>";
+            $rows = NULL;  // flag for further operation for no records to display
         }
 
-        const row = document.getElementById("tbodyOfInput").insertRow();
-        row.innerHTML = html;
-        size++;
-    }
+        mysqli_free_result($result);  // free memory
 
-    function deleteRow(button) {
-        button.parentElement.parentElement.remove(); // first parentElement will be td and second will be tr.
-        size--;
-        if (size === 0) {
-            let html = "<tr><td colspan='4'>Nothing in inventory yet. " +
-                "Insert New Item to start taking inventory! <br><br></td></tr>"
-            const row = document.getElementById("tbodyOfInput").insertRow();
-            row.innerHTML = html;
-        }
-    }
-</script>
-
-<!-- Add new inventory record to database -->
-<?php
-if (isset($_POST['addEntry'])) {
-    $query = "insert into stockusage values ";
-    foreach ($_POST['input'] as $row) {
-        $query .=
-            sprintf("('%s', '%s', '%s', '%s', '%s', '%f'), ",
-                parse_input($row['item']), parse_input($row['category']), date('Y-m-d'),
-                $user_data['name'], parse_input($row['unit']), parse_input($row['quantity'])
-            );
-    }
-    $query = rtrim($query, ", ");  // Remove trailing ', ' from last foreach iteration
-
-    $result = mysqli_query($inventoryConnection, $query);
-    if ($result) {
-        echo "Successfully recorded new inventory entry!";
-        header("Location: viewInventory.php");  // Redirect to view inventory webpage
     } else {
-        echo "An error occurred. Please verify inputs.";
+        die("Something Went Wrong with searching. Try Refreshing the page.");
     }
-}
-?>
+    ?>
+
+    </table>
+
 </body>
 </html>
 
