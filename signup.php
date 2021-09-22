@@ -22,7 +22,7 @@ session_start();
 			$query = "insert into  users (name, user_id, email, password, privelege) values ('$name','$user_id','$email','$password', '$privelege')";
 
 
-			if(!query)
+			if(!$query)
             {
                 $error = "<div class=\"alert alert-warning\" role=\"alert\">
                  Something Went Wrong with the Database!

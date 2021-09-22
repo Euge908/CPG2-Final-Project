@@ -35,7 +35,7 @@ session_start();
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <!--current active tab-->
-                    <a class="nav-link active px-4" aria-current="page" href="#">Generate Cogs</a>
+                    <a class="nav-link active px-4" aria-current="page" href="#">Generate Cogs [DEAD LINK]</a>
                 </li>
 
 
@@ -44,19 +44,19 @@ session_start();
                         Take Inventory
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" href="viewInventory.php">View Inventory</a></li>
+                        <li><a class="dropdown-item" href="takeInventory.php">Take Inventory</a></li>
+<!--                        <li><hr class="dropdown-divider"></li>-->
+                        <li><a class="dropdown-item" href="#">Edit Category/ Items [DEAD LINK]</a></li>
                     </ul>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link px-4" href="#">Expenditures</a>
+                    <a class="nav-link px-4" href="index.php">Expenditures</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link px-4" href="#">Log Out</a>
+                    <a class="nav-link px-4" href="logout.php">Log Out</a>
                 </li>
             </ul>
         </div>
@@ -239,7 +239,6 @@ session_start();
                 $danger = "<div class=\"alert alert-danger\" role=\"alert\">
                 One or more empty Fields Detected!
                 </div>";
-                echo "HELLO";
 
             }
 
@@ -250,7 +249,10 @@ session_start();
             //()
             if(!empty($dateOfPurchase) or !empty($productName) or !empty($description) or !empty ($quantity) or !empty($units) or !empty($category))
             {
-                $modifyQuery = "delete from expenditure where Item ='$productName' AND PurchaseDate = '$dateOfPurchase' AND Description = '$description' AND Quantity ='$quantity' AND Unit = '$units' AND Category = '$category'";
+                if($user_data == 'admin')
+                {
+                    $modifyQuery = "delete from expenditure where Item ='$productName' AND PurchaseDate = '$dateOfPurchase' AND Description = '$description' AND Quantity ='$quantity' AND Unit = '$units' AND Category = '$category'";
+                }
             }else{
                 $danger = "<div class=\"alert alert-danger\" role=\"alert\">
                 One or more empty Fields Detected!
