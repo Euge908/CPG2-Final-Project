@@ -12,30 +12,121 @@ session_start();
 <!DOCTYPE html>
 <html>
 <head>
-	<title>My website</title>
+	<title>Take Expenditure</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
 </head>
 <body>
 
-	<a href="logout.php">Logout</a>
-	<h1>This is the index page</h1>
 
-	<br>
-	Hello, <?php echo $user_data['name']; ?>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
+        <div class="collapse navbar-collapse " id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <!--current active tab-->
+                    <a class="nav-link active px-4" aria-current="page" href="#">Generate Cogs</a>
+                </li>
+
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle px-4" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Take Inventory
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link px-4" href="#">Expenditures</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link px-4" href="#">Log Out</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class = "container">
+
+    <div class="alert alert-info" role="alert">
+        Hello, <?php echo $user_data['name']; ?>. How are you today?
+    </div>
+
+
+    <h1 class = "pb-4 mt-4 mb-4 border-bottom">Expenditure Entry</h1>
+
+
+    <form method = "post">
+
+        <!-- date input -->
+        <div class="row mb-3">
+            <label for="dateOfPurchase" class="col-sm-2 col-form-label">Date of Purchase</label>
+            <div class="col-sm-10">
+                <input input id="text" type="date" name="dateOfPurchase" requiredclass="form-control" id="dateOfPurchase">
+            </div>
+        </div>
+
+
+        <div class="row mb-3">
+            <label for="inputPassword3" class="col-sm-2 col-form-label">Product Name:</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="inputPassword3">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="preference">Preference</label>
+            <div class="col-sm-10">
+                <select class="form-select" id="preference">
+                    <option selected>Choose...</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+        </div>
+
+
+        <button type="submit" class="text-right btn btn-primary">Add entry</button>
+        <button type="submit" class="text-right btn btn-danger">Delete</button>
+
+    </form>
 
 
     <form method="post">
-        <h1>Expenditure Entry</h1>
-        Date of Purchase:
-        <input id="text" type="date" name="dateOfPurchase" required><br><br>
-        Product Name:
-        <input id="text" type="text" name="productName" required><br><br>
-        Description:
-        <input id="text" type="text" name="description" required><br><br>
-        Quantity:
-        <input id="text" type="text" name="quantity" required><br><br>
-        Units:
 
+        <div class="form-group pb-2 mt-4 mb-2 ">
+
+        <input id="text" class="form-control email" type="text" name="productName" required>
+        </div>
+
+        <div class="form-group pb-2 mt-4 mb-2 ">
+        Description:
+        <input id="text" class="form-control email" type="text" name="description" required>
+        </div>
+
+        <div class="form-group pb-2 mt-4 mb-2 ">
+        Quantity:
+
+        <input class="form-control email"  id="text" type="text" name="quantity" required>
+        Units:
+        </div>
+
+        <div class="form-group pb-2 mt-4 mb-2 ">
         <select id="text" type="text" name="units" required>
             <option value='units'>Units</option>
             <option value="kilograms">Kilograms</option>
@@ -43,8 +134,9 @@ session_start();
             <option value="liters">Liters</option>
             <option value="gallons">Gallons</option>
         </select>
+        </div>
 
-        <br><br>
+        <div class="form-group pb-2 mt-4 mb-2 ">
         Category:
 
         <select id="text" type="text" name="category" required>
@@ -57,11 +149,11 @@ session_start();
             <option value="Cutlery/Utensils">Cutlery/Utensils</option>
             <option value="Major Equipment">Major Equipment</option>
             <option value="Minor Equipment">Minor Equipment</option>
-        </select><br><br>
+        </select>
+        </div>
 
-
-        <input id="button" type="submit" name="addEntry" value="Add Entry"><br><br>
-        <input id="button" type="submit" name="deleteEntry" value="Delete Entry"><br><br>
+        <input id="button" type="submit" name="addEntry" value="Add Entry">
+        <input id="button" type="submit" name="deleteEntry" value="Delete Entry">
     </form>
 
     <h1>Previous Expenditure Entries</h1>
@@ -81,7 +173,7 @@ session_start();
         </select>
 
         <input id="button" type="submit" name="orderBy" value="Order By">
-        <input id="button" type="submit" name="searchValue" value="Search Value"><br><br>
+        <input id="button" type="submit" name="searchValue" value="Search Value">
     </form>
 
     <table>
@@ -93,6 +185,9 @@ session_start();
             <td>Unit</td>
             <td>Category</td>
         </tr>
+
+
+</div>
 
 
 

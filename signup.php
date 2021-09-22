@@ -21,13 +21,20 @@ session_start();
 			$user_id = random_num(20);
 			$query = "insert into  users (name, user_id, email, password, privelege) values ('$name','$user_id','$email','$password', '$privelege')";
 
+
+			if(!query)
+            {
+                $error = "<div class=\"alert alert-warning\" role=\"alert\">
+                 Something Went Wrong with the Database!
+                </div>";
+            }
 			mysqli_query($usersConnection, $query);
 			header("Location: login.php");
 			die;
 		}else
 		{
             $error = "<div class=\"alert alert-warning\" role=\"alert\">
-                  Invalid email or password!
+                  Invalid Fields Detected;
                 </div>";
 		}
 	}
@@ -56,13 +63,19 @@ session_start();
 
 
                     <!-- Form -->
-                    <form class="" action="" method="post">
+                    <form class="" action="" method="post" action = "signup.php">
                         <h1>Sign Up Page</h1>
 
                         <?php
                         echo $error
                         ?>
                         <!-- Input fields -->
+
+                        <div class="form-group pb-2 mt-4 mb-2 ">
+                            <label for="name">Name:</label>
+                            <input type="text" class="form-control email" id="name" placeholder="Enter Name" name="name">
+                        </div>
+
                         <div class="form-group pb-2 mt-4 mb-2 ">
                             <label for="email">Email:</label>
                             <input type="text" class="form-control email" id="email" placeholder="Enter Email" name="email">
@@ -74,8 +87,9 @@ session_start();
 
 
 
-                        <button type="submit" class="btn btn-primary">Login</button>
-                        <a class="btn btn-primary" href = "signup.php">Sign Up</a>
+                        <a class="btn btn-primary" href = "login.php">Log In</a>
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
+
                         <!-- End input fields -->
                     </form>
 

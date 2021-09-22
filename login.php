@@ -36,13 +36,13 @@ session_start();
 						die;
 					}
 				}
-			}
-
-
-			$error = "<div class=\"alert alert-warning\" role=\"alert\">
-                  Invalid email or password!
+			}else{
+                $error = "<div class=\"alert alert-warning\" role=\"alert\">
+                  Something went wrong with the database!
                 </div>";
-		}else
+        }
+
+        }else
 		{
             $error = "<div class=\"alert alert-warning\" role=\"alert\">
                   Invalid email or password!
