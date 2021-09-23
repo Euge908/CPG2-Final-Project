@@ -83,13 +83,13 @@ session_start();
                         echo $error
                         ?>
                         <!-- Input fields -->
-                        <div class="form-group pb-2 mt-4 mb-2 ">
+                        <div class="form-group pb-2 mt-4 mb-2 " required>
                             <label for="email">Email:</label>
                             <input type="text" class="form-control email" id="email" placeholder="Enter Email" name="email">
                         </div>
                         <div class="form-group pb-2 mt-4 mb-2 ">
                             <label for="password">Password:</label>
-                            <input type="password" class="form-control password" id="password" placeholder="Enter Password" name="password">
+                            <input type="password" class="form-control password" id="password" placeholder="Enter Password" name="password" required>
                         </div>
 
 

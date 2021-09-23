@@ -80,16 +80,16 @@ session_start();
 
                         <div class="form-group pb-2 mt-4 mb-2 ">
                             <label for="name">Name:</label>
-                            <input type="text" class="form-control email" id="name" placeholder="Enter Name" name="name">
+                            <input type="text" class="form-control email" id="name" placeholder="Enter Name" name="name" required>
                         </div>
 
                         <div class="form-group pb-2 mt-4 mb-2 ">
                             <label for="email">Email:</label>
-                            <input type="text" class="form-control email" id="email" placeholder="Enter Email" name="email">
+                            <input type="text" class="form-control email" id="email" placeholder="Enter Email" name="email" required>
                         </div>
                         <div class="form-group pb-2 mt-4 mb-2 ">
                             <label for="password">Password:</label>
-                            <input type="password" class="form-control password" id="password" placeholder="Enter Password" name="password">
+                            <input type="password" class="form-control password" id="password" placeholder="Enter Password" name="password" required>
                         </div>
 
 
