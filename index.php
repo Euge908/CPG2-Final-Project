@@ -33,15 +33,11 @@ session_start();
 
         <div class="collapse navbar-collapse " id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <!--current active tab-->
-                    <a class="nav-link active px-4" aria-current="page" href="#">Generate Cogs [DEAD LINK]</a>
-                </li>
 
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle px-4" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Take Inventory
+                        Inventory
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="viewInventory.php">View Inventory</a></li>
@@ -52,7 +48,7 @@ session_start();
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link px-4" href="index.php">Expenditures</a>
+                    <a class="nav-link px-4 active" href="index.php">Expenditures</a>
                 </li>
 
                 <li class="nav-item">
@@ -90,7 +86,7 @@ session_start();
         <div class="row mb-3">
             <label for="dateOfPurchase" class="col-sm-2 col-form-label">Date of Purchase</label>
             <div class="col-sm-10">
-                <input input id="text" type="date" name="dateOfPurchase" requiredclass="form-control" id="dateOfPurchase" required>
+                <input type="datetime-local" name="dateOfPurchase" requiredclass="form-control" id="dateOfPurchase" required>
             </div>
         </div>
 
@@ -167,7 +163,7 @@ session_start();
                 <label class="form-label" for="queryText">
                     Query text:
                 </label>
-                <input class="form-select mb-2" id="queryText" type="text" name="queryText" placeholder="Entry field">
+                <input class="form-control" mb-2" id="queryText" type="text" name="queryText" placeholder="Entry field">
             </div>
 
 

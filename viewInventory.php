@@ -38,15 +38,10 @@ $categoryOptions = get_enum_values($inventoryConnection, "StockUsage", "Category
 
         <div class="collapse navbar-collapse " id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <!--current active tab-->
-                    <a class="nav-link " aria-current="page" href="#">Generate Cogs [DEAD LINK]</a>
-                </li>
-
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle px-4 active " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Take Inventory
+                        Inventory
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item  active " href="viewInventory.php">View Inventory</a></li>
@@ -87,7 +82,7 @@ $categoryOptions = get_enum_values($inventoryConnection, "StockUsage", "Category
                     <label class="form-label" for="searchItem">
                         Query text:
                     </label>
-                    <input class="form-select mb-2" id="searchItem" type="text" name="searchItem" placeholder="Entry field">
+                    <input class="form-control" id="searchItem" type="text" name="searchItem" placeholder="Entry field">
                 </div>
 
 
@@ -117,7 +112,7 @@ $categoryOptions = get_enum_values($inventoryConnection, "StockUsage", "Category
 
         <br>
 
-        <table class="table table-hover">
+        <table class="table table-hover text-center">
             <tr class = "table-dark ">
                 <th scope="col">Item Name</th>
                 <th scope="col">Category</th>

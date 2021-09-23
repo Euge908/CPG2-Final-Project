@@ -38,6 +38,11 @@ mysqli_free_result($result);  // free memory
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
+
+    <style>
+        #tbodyOfInput{
+        }
+    </style>
 </head>
 <body>
 
@@ -52,15 +57,10 @@ mysqli_free_result($result);  // free memory
 
             <div class="collapse navbar-collapse " id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <!--current active tab-->
-                        <a class="nav-link " aria-current="page" href="#">Generate Cogs [DEAD LINK]</a>
-                    </li>
-
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle px-4 active " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Take Inventory
+                            Inventory
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="viewInventory.php">View Inventory</a></li>
@@ -98,7 +98,7 @@ mysqli_free_result($result);  // free memory
 
 
         <form method='post'>
-        <table>
+        <table class = "specialTable">
         <tr>
             <th>Item</th>
             <th>Category</th>
