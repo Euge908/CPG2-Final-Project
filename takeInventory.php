@@ -68,7 +68,7 @@ mysqli_free_result($result);  // free memory
                             <li><a class="dropdown-item" href="viewInventory.php">View Inventory</a></li>
                             <li><a class="dropdown-item active" href="takeInventory.php">Take Inventory</a></li>
                             <!--                        <li><hr class="dropdown-divider"></li>-->
-                            <li><a class="dropdown-item" href="#">Edit Category/ Items [DEAD LINK]</a></li>
+                            <li><a class="dropdown-item" href="editInventory.php">Edit Category/ Items [DEAD LINK]</a></li>
                         </ul>
                     </li>
 
