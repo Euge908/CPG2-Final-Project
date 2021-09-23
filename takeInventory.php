@@ -40,7 +40,9 @@ mysqli_free_result($result);  // free memory
 
 
     <style>
-        #tbodyOfInput{
+        td{
+            padding: 20px;
+
         }
     </style>
 </head>
