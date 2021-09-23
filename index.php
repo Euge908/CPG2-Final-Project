@@ -49,7 +49,7 @@ session_start();
                         <li><a class="dropdown-item" href="viewInventory.php">View Inventory</a></li>
                         <li><a class="dropdown-item" href="takeInventory.php">Take Inventory</a></li>
 <!--                        <li><hr class="dropdown-divider"></li>-->
-                        <li><a class="dropdown-item" href="editInventory.php">Edit Category/ Items [DEAD LINK]</a></li>
+                        <li><a class="dropdown-item" href="editInventory.php">Edit Category/ Items</a></li>
                     </ul>
                 </li>
 
@@ -244,6 +244,7 @@ session_start();
             {
 
                     $modifyQuery = "delete from expenditure where Item ='$productName' AND PurchaseDate = '$dateOfPurchase' AND Description = '$description' AND Quantity ='$quantity' AND Unit = '$units' AND Category = '$category'";
+
             }else{
                 echo "<script>alert(\"Empty  Fields Detected. Try again\")</script>";
             }
