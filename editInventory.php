@@ -162,9 +162,9 @@ $buttonsFlag = true;
 
                     $result = mysqli_query($inventoryConnection, $query);
                     if ($result) {
-                        echo "Successfully updated inventory";
+                        echo "<script>alert('Successfully updated inventory')</script>";
                     } else {
-                        echo "An error occurred with updating entries. Please verify inputs." .mysqli_connect_error();
+                        alert(sprintf("An error occurred with updating entries. Please verify inputs. % s", mysqli_connect_error()));
                     }
                 }
 
@@ -172,7 +172,8 @@ $buttonsFlag = true;
 
 
         } else {
-            echo "Nothing in inventory yet. Please take inventory first! <br><br>";
+
+            echo (alert("Nothing in inventory yet. Please take inventory first!"));
         }
 
     } else {
