@@ -80,17 +80,6 @@ session_start();
 
     <h1 class = "pb-4 mt-4 mb-4 border-bottom">Expenditure Entry</h1>
 
-
-    <div class="alert alert-success" role="alert" id = "dangerMessage">
-        Hello
-    </div>
-
-
-
-    <div class="alert alert-danger " role="alert" id = "successMessage" style = "">
-        Hello
-    </div>
-
     <form method = "post">
 
         <!-- date input -->
@@ -255,7 +244,6 @@ session_start();
             {
 
                     $modifyQuery = "delete from expenditure where Item ='$productName' AND PurchaseDate = '$dateOfPurchase' AND Description = '$description' AND Quantity ='$quantity' AND Unit = '$units' AND Category = '$category'";
-                    echo $modifyQuery;
             }else{
                 echo "<script>alert(\"Empty  Fields Detected. Try again\")</script>";
             }

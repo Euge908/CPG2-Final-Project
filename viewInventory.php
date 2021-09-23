@@ -141,9 +141,8 @@ $categoryOptions = get_enum_values($inventoryConnection, "StockUsage", "Category
                 $text = parse_input($_POST["searchItem"]); //string is search bar
 
                 if(empty($text)) {
-                    echo "Empty Text Field. Enter an item name to search.<br>";
+                    echo "<script> alert('Empty Text Field. Enter an item name to search.') </script>";
                 } else {
-                    echo "Search Entry was clicked. <br>";
                     $query .= " HAVING Item = '$text'";
                 }
             } else if (isset($_POST['orderBy'])) {
@@ -186,7 +185,7 @@ $categoryOptions = get_enum_values($inventoryConnection, "StockUsage", "Category
                 unset($row);  // break reference with the last element as it is retained even after the loop
 
             } else {
-                echo "Nothing in inventory yet. Please take inventory first to record the latest stock usage. <br><br>";
+                echo "<script>alert('Nothing in inventory yet. Please take inventory first to record the latest stock usage')</script>";
                 $rows = NULL;  // flag for further operation for no records to display
             }
 
