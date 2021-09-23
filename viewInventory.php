@@ -138,9 +138,9 @@ $categoryOptions = get_enum_values($inventoryConnection, "StockUsage", "Category
                LEFT JOIN stockusage C ON A.Item = C.Item
                WHERE A.Date = (select MAX(Date) from stockusage) GROUP BY Item";
 
+        if (isset($_POST['search']) or isset($_POST['orderBy'])) {
 
-        if (isset($_POST['searchItem']) or isset($_POST['orderBy'])) {
-            if (isset($_POST['searchItem'])) {
+            if (isset($_POST['search'])) {
                 $text = parse_input($_POST["searchItem"]); //string is search bar
 
                 if(empty($text)) {
@@ -150,9 +150,15 @@ $categoryOptions = get_enum_values($inventoryConnection, "StockUsage", "Category
                 }
             } else if (isset($_POST['orderBy'])) {
                 $orderBy = parse_input($_POST["columnToBeArranged"]); //string in drop down
+                echo $orderBy;
                 $query .= " ORDER BY $orderBy ASC";
             }
+
+            echo "('$query')";
+
         }
+
+
 
         $result = mysqli_query($inventoryConnection, $query);
         if ($result) {
