@@ -6,7 +6,6 @@ session_start();
 	include("./include/connections.inc.php");
 	include("./include/functions.inc.php");
 
-	$error = "";
 	if($_SERVER['REQUEST_METHOD'] == "POST")
 	{
 		//something was posted
@@ -21,21 +20,36 @@ session_start();
 			$user_id = random_num(20);
 			$query = "insert into  users (name, user_id, email, password, privelege) values ('$name','$user_id','$email','$password', '$privelege')";
 
+            $duplicateQuery = "SELECT * FROM users  WHERE email = '$email'";
+            $duplicateQuery = mysqli_query($usersConnection, $duplicateQuery);
 
-			if(!$query)
+
+            if ($duplicateQuery)
             {
-                $error = "<div class=\"alert alert-warning\" role=\"alert\">
-                 Something Went Wrong with the Database!
-                </div>";
+                //error
+
+                if (mysqli_num_rows($duplicateQuery) > 0) {
+                    //duplicate user detected
+                    echo "<script>alert('Account already used')</script>";
+                }
+                else{
+                    //g to do
+                    mysqli_query($usersConnection, $query);
+                    header("Location: login.php");
+                    die;
+                }
+            }else{
+                echo "<script>alert('Something went wrong with the database')</script>";
             }
-			mysqli_query($usersConnection, $query);
-			header("Location: login.php");
-			die;
+
+
+
+
 		}else
 		{
-            $error = "<div class=\"alert alert-warning\" role=\"alert\">
-                  Invalid Fields Detected;
-                </div>";
+            //invalid fields detected
+            echo "<script>alert('Invalid fields detected')</script>";
+
 		}
 	}
 ?>
@@ -53,12 +67,8 @@ session_start();
 <body>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-
 	<div class="container">
-        <div class="container h-100">
-            <div class="row h-100 justify-content-center align-items-center">
+            <div class="row justify-content-center align-items-center">
                 <div class="col-10 col-md-8 col-lg-6">
 
 
@@ -66,9 +76,6 @@ session_start();
                     <form class="" action="" method="post" action = "signup.php">
                         <h1>Sign Up Page</h1>
 
-                        <?php
-                        echo $error
-                        ?>
                         <!-- Input fields -->
 
                         <div class="form-group pb-2 mt-4 mb-2 ">
@@ -97,7 +104,9 @@ session_start();
                     <!-- Form end -->
                 </div>
             </div>
-        </div>
 	</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 </body>
 </html>
