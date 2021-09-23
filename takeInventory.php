@@ -68,7 +68,7 @@ mysqli_free_result($result);  // free memory
                             <li><a class="dropdown-item" href="viewInventory.php">View Inventory</a></li>
                             <li><a class="dropdown-item active" href="takeInventory.php">Take Inventory</a></li>
                             <!--                        <li><hr class="dropdown-divider"></li>-->
-                            <li><a class="dropdown-item" href="#">Edit Category/ Items [DEAD LINK]</a></li>
+                            <li><a class="dropdown-item" href="editInventory.php">Edit Category/ Items [DEAD LINK]</a></li>
                         </ul>
                     </li>
 
@@ -209,8 +209,8 @@ mysqli_free_result($result);  // free memory
         $query = "insert into stockusage values ";
         foreach ($_POST['input'] as $row) {
             $query .=
-                sprintf("('%s', '%s', '%s', '%s', '%s', '%f'), ",
-                    parse_input($row['item']), parse_input($row['category']), date('Y-m-d'),
+                sprintf("('%s', '%s', CURDATE(), '%s', '%s', '%f'), ",
+                    parse_input($row['item']), parse_input($row['category']),
                     $user_data['name'], parse_input($row['unit']), parse_input($row['quantity'])
                 );
         }
