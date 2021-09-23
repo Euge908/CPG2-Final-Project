@@ -209,8 +209,8 @@ mysqli_free_result($result);  // free memory
         $query = "insert into stockusage values ";
         foreach ($_POST['input'] as $row) {
             $query .=
-                sprintf("('%s', '%s', '%s', '%s', '%s', '%f'), ",
-                    parse_input($row['item']), parse_input($row['category']), date('Y-m-d'),
+                sprintf("('%s', '%s', CURDATE(), '%s', '%s', '%f'), ",
+                    parse_input($row['item']), parse_input($row['category']),
                     $user_data['name'], parse_input($row['unit']), parse_input($row['quantity'])
                 );
         }
