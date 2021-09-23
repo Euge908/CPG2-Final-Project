@@ -150,12 +150,9 @@ $categoryOptions = get_enum_values($inventoryConnection, "StockUsage", "Category
                 }
             } else if (isset($_POST['orderBy'])) {
                 $orderBy = parse_input($_POST["columnToBeArranged"]); //string in drop down
-                echo $orderBy;
                 $query .= " ORDER BY $orderBy ASC";
             }
-
-            echo "('$query')";
-
+            
         }
 
 
