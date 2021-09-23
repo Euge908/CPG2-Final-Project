@@ -136,8 +136,8 @@ $categoryOptions = get_enum_values($inventoryConnection, "StockUsage", "Category
                WHERE A.Date = (select MAX(Date) from stockusage) GROUP BY Item";
 
 
-        if (isset($_POST['search']) or isset($_POST['orderBy'])) {
-            if (isset($_POST['search'])) {
+        if (isset($_POST['searchItem']) or isset($_POST['orderBy'])) {
+            if (isset($_POST['searchItem'])) {
                 $text = parse_input($_POST["searchItem"]); //string is search bar
 
                 if(empty($text)) {
@@ -192,7 +192,7 @@ $categoryOptions = get_enum_values($inventoryConnection, "StockUsage", "Category
 
             mysqli_free_result($result);  // free memory
 
-            if(isset($_POST['search']) or isset($_POST['orderBy']))
+            if(isset($_POST['searchItem']) or isset($_POST['orderBy']))
             echo "<div class=\"alert alert-success\" role=\"alert\">
                 Query Results Displayed! 
             </div>";
