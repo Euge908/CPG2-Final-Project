@@ -10,7 +10,7 @@ $user_data = check_login($usersConnection);
 $unitOptions = get_enum_values($inventoryConnection, "StockUsage", "Unit");
 $categoryOptions = get_enum_values($inventoryConnection, "StockUsage", "Category");
 $ctr = 0;  // for keeping count of # of rows in input table
-$buttonsFlag = true;
+$buttonsFlag = 'visible';  // visible or  invisible; to be added to div's class
 ?>
 
 
@@ -24,8 +24,12 @@ $buttonsFlag = true;
     <title>Edit Inventory</title>
 
     <style>
-        /*td {padding: 10px;}*/
-
+        .visible {
+            visibility: visible;
+        }
+        .invisible {
+            visibility: hidden;
+        }
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
@@ -89,12 +93,13 @@ $buttonsFlag = true;
             $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
             if ($rows[0]['Date'] !== date('Y-m-d')) {  // if latest inventory not today's
-                warningAlert("You have not take today\'s inventory yet. 
-                        Please proceed to <a href='takeInventory.php' class='alert-link'> Take Inventory</a>.");
+                warningAlert("You have not take today's inventory yet. 
+                        Please proceed to &nbsp; <a href='takeInventory.php' class='alert-link'> Take Inventory</a>.");
+                $buttonsFlag = 'invisible';
             } else {  // When latest inventory is today's, allow edit
                 echo '
                 <form method=\'post\'>
-                <table style = \"padding: 30px; \">
+                <table class = "specialTable mb-3">
                     <tr>
                         <th class="col-sm-3">Item</th>
                         <th class="col-sm-3">Category</th>
@@ -140,31 +145,37 @@ $buttonsFlag = true;
                 echo "
                     </tbody>
                     </table>
-                    <input class='btn btn-success' id='button' type='submit' name='update' value='Update Entries'/>
-                    <button class='btn btn-outline-success' type='button' name='newItem' onclick='addRow();'>Insert New Item</button>
+                    <input class='btn btn-success $buttonsFlag' id='button' type='submit' name='update' value='Update Entries'/>
+                    <button class='btn btn-outline-success $buttonsFlag' type='button' name='newItem' onclick='addRow();'>Insert New Item</button>
                     </form>
                 ";
 
-                // Update new inventory record to database
+                // Update new inventory record to database by deleting and replacing the latest records
                 if (isset($_POST['update'])) {
-                    $query = "INSERT INTO stockusage (ID, Item, Category, Date, Checker, Unit, Quantity) VALUES ";
-                    for ($i = 0; $i < count($_POST['input']); $i++)  {
-                        $row = $_POST['input'][$i];
-                        $query .=
-                            sprintf("(%d, '%s', '%s', CURDATE(), '%s', '%s', '%f'), ",
-                                $rows[$i]['ID'], parse_input($row['item']), parse_input($row['category']),
+
+                    $deleteQuery = "delete from stockusage where Date = CURDATE()";
+                    $updateQuery = "INSERT INTO stockusage (Item, Category, Date, Checker, Unit, Quantity) values ";
+
+                    foreach ($_POST['input'] as $row) {
+                        $updateQuery .=
+                            sprintf("('%s', '%s', CURDATE(), '%s', '%s', '%f'), ",
+                                parse_input($row['item']), parse_input($row['category']),
                                 $user_data['name'], parse_input($row['unit']), parse_input($row['quantity'])
                             );
                     }
-                    $query = rtrim($query, ", ");  // Remove trailing ', ' from last foreach iteration
-                    $query .= " ON DUPLICATE KEY UPDATE Item=values(Item), Category=values(Category), Date=values(Date),
-                              Checker=values(Checker), Unit=values(Unit), Quantity=values(Quantity)";
+                    $updateQuery = rtrim($updateQuery, ", ");  // Remove trailing ', ' from last foreach iteration
 
-                    $result = mysqli_query($inventoryConnection, $query);
-                    if ($result) {
-                        echo "<script>alert('Successfully updated inventory')</script>";
+                    if (mysqli_query($inventoryConnection, $deleteQuery)) {
+                        if (mysqli_query($inventoryConnection, $updateQuery)) {
+                            dismissibleSuccessAlert("Successfully updated inventory! 
+                                            <a href = 'viewInventory.php' class='alert-link'> View </a>");
+                        } else {
+                            dismissibleDangerAlert("An error occurred with updating entries. 
+                                            Please verify inputs." .mysqli_connect_error());
+                        }
                     } else {
-                        alert(sprintf("An error occurred with updating entries. Please verify inputs. % s", mysqli_connect_error()));
+                        dismissibleDangerAlert("An error occurred with replacing old entries. 
+                                            Please verify inputs." .mysqli_connect_error());
                     }
                 }
 
@@ -172,12 +183,12 @@ $buttonsFlag = true;
 
 
         } else {
-
-            echo (alert("Nothing in inventory yet. Please take inventory first!"));
+            warningAlert("Nothing in inventory yet. 
+                             Please `<a href='takeInventory.php' class='alert-link'> Take Inventory</a>` first!");
         }
 
     } else {
-        die("Something Went Wrong with searching. Try Refreshing the page.");
+        dangerAlert(die("Something Went Wrong with searching. Try Refreshing the page."));
     }
 
     ?>
@@ -192,22 +203,22 @@ $buttonsFlag = true;
 
         function addRow() {
             let html = "<tr>";
-            html += "<td><input type='text' name='input["+size+"][item]' required/></td>";
-            html += "<td><select name='input["+size+"][category]' required>" +
+            html += "<td><input class='form-control' type='text' name='input["+size+"][item]' required/></td>";
+            html += "<td><select class='form-select' name='input["+size+"][category]' required>" +
                 "<option value='' selected disabled hidden>Choose here</option>";
             for (const option of categoryOptions) {
                 html += "<option value=" + option + ">" + option + "</option>";
             }
             html += "</td><td>";
-            html += "<select name='input["+size+"][unit]' required style='width: 100%'>" +
+            html += "<select class='form-select' name='input["+size+"][unit]' required style='width: 100%'>" +
                 "<option value='' selected disabled hidden>Choose here</option>";
             for (const option of unitOptions) {
                 html += "<option value=" + option + ">" + option + "</option>";
             }
             html += "</td>";
-            html += "<td><input type='number' name='input["+size+"][quantity]' " +
+            html += "<td><input class='form-control' type='number' name='input["+size+"][quantity]' " +
                 "step='0.01' min='0' max='99999.99' required/></td>";
-            html += "<td><button type='button' onclick='deleteRow(this);'>Delete</button></td>"
+            html += "<td><button class='btn btn-danger' type='button' onclick='deleteRow(this);'>Delete</button></td>"
             html += "</tr>";
 
             if (size === 0) {

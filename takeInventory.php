@@ -24,6 +24,7 @@ if (mysqli_num_rows($result) > 0) {
 }
 mysqli_free_result($result);  // free memory
 
+$buttonsFlag = 'visible';  // visible or  invisible; to be added to div's class
 ?>
 
 
@@ -35,6 +36,15 @@ mysqli_free_result($result);  // free memory
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Take Inventory</title>
+
+    <style>
+        .visible {
+            visibility: visible;
+        }
+        .invisible {
+            visibility: hidden;
+        }
+    </style>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
@@ -90,8 +100,9 @@ mysqli_free_result($result);  // free memory
     <?php
     if (!is_null($rows)) {
         if ($rows[0]['Date'] === date('Y-m-d')) {
-            warningAlert("You have already took inventory for the day. Go to 
-                               <a href='editInventory.php'> Edit Inventory </a> for editing.");
+            fixedWarningAlert("You have already took inventory for the day. Go to &nbsp;  
+                               <a href='editInventory.php' class='alert-link'>Edit Inventory</a> &nbsp; for editing.");
+            $buttonsFlag = 'invisible';
         } else {
             echo<<< EOF
             <form method='post'>
@@ -141,15 +152,15 @@ EOF;
             unset($row);  // break reference with the last element as it is retained even after the loop
         }
     } else {
-        warningAlert("Nothing in inventory yet. Insert New Item to start taking inventory!");
+        fixedWarningAlert("Nothing in inventory yet. Insert New Item to start taking inventory!");
         echo "<tr><td colspan='4'>Nothing to show. <br><br></td></tr>";
     }
     ?>
 
     </tbody>
     </table>
-    <br> <input class='btn btn-success' id='button' type='submit' name='addEntry' value='Add Entries'/>
-    <button class='btn btn-outline-success' type='button' name='newItem' onclick='addRow();'>Insert New Item</button> <br>
+        <br> <input class='btn btn-success <?php echo $buttonsFlag?>' id='button' type='submit' name='addEntry' value='Add Entries'/>
+        <button class='btn btn-outline-success <?php echo $buttonsFlag?>' type='button' name='newItem' onclick='addRow();'>Insert New Item</button> <br>
     </form>
 
     <!-- JS function for adding and deleting row to an existing table
@@ -216,7 +227,7 @@ EOF;
         $result = mysqli_query($inventoryConnection, $query);
         if ($result) {
             dismissibleSuccessAlert("Successfully recorded new inventory entry! 
-                                        <a href = 'viewInventory.php'> View </a>");
+                                        <a href = 'viewInventory.php' class='alert-link'> View </a>");
         } else {
             dismissibleDangerAlert("An error occurred. Please verify inputs." .mysqli_connect_error());
         }

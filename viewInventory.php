@@ -3,6 +3,7 @@ session_start();
 
 include("./include/connections.inc.php");
 include("./include/functions.inc.php");
+include("./include/bootstrapComponents.inc.php");
 $user_data = check_login($usersConnection);
 
 // Fetch choices for units and categories from Database
@@ -43,7 +44,6 @@ $categoryOptions = get_enum_values($inventoryConnection, "StockUsage", "Category
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item  active " href="viewInventory.php">View Inventory</a></li>
                         <li><a class="dropdown-item" href="takeInventory.php">Take Inventory</a></li>
-                        <!--                        <li><hr class="dropdown-divider"></li>-->
                         <li><a class="dropdown-item" href="editInventory.php">Edit Category/Items</a></li>
                     </ul>
                 </li>
@@ -107,6 +107,14 @@ $categoryOptions = get_enum_values($inventoryConnection, "StockUsage", "Category
         <br>
 
         <table class="table table-hover text-center">
+            <caption> <small> <em>
+                <b>Beginning inventory</b> = last inventory’s end inventory <br>
+                <b>Purchases</b> = quantity purchased since last inventory (based on expenditure) <br>
+                <b>Total</b> = total quantity prior usage = beginning inventory + purchases <br>
+                <b>Ending inventory</b> = actual quantity left <br>
+                <b>Usage</b> = quantity used = total - ending inventory <br>
+                </em> </small>
+            </caption>
             <tr class = "table-dark ">
                 <th scope="col">Item Name</th>
                 <th scope="col">Category</th>
@@ -136,7 +144,7 @@ $categoryOptions = get_enum_values($inventoryConnection, "StockUsage", "Category
                 $text = parse_input($_POST["searchItem"]); //string is search bar
 
                 if(empty($text)) {
-                    echo "<script> alert('Empty Text Field. Enter an item name to search.') </script>";
+                    warningAlert('Empty Text Field. Enter an item name to search.');
                 } else {
                     $query .= " HAVING Item = '$text'";
                 }
@@ -179,17 +187,23 @@ $categoryOptions = get_enum_values($inventoryConnection, "StockUsage", "Category
                 }
                 unset($row);  // break reference with the last element as it is retained even after the loop
 
+                if (isset($_POST['searchItem']) or isset($_POST['orderBy'])) {
+                    echo "<div class=\"alert alert-success\" role=\"alert\">
+                            Query Results Displayed! 
+                         </div>";
+                }
+
             } else {
-                echo "<script>alert('Nothing in inventory yet. Please take inventory first to record the latest stock usage')</script>";
-                $rows = NULL;  // flag for further operation for no records to display
+                if (!(isset($_POST['searchItem']) or isset($_POST['orderBy']))) {
+                    warningAlert('Nothing in inventory yet. Please take inventory first to record the latest stock usage.');
+                    $rows = NULL;  // flag for further operation for no records to display
+                } else {
+                    warningAlert('Item not found. Please enter the complete item name for searching.');
+                }
             }
 
             mysqli_free_result($result);  // free memory
 
-            if(isset($_POST['searchItem']) or isset($_POST['orderBy']))
-            echo "<div class=\"alert alert-success\" role=\"alert\">
-                Query Results Displayed! 
-            </div>";
         } else {
             die("Something Went Wrong with searching. Try Refreshing the page.");
         }
