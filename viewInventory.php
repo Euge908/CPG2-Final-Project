@@ -26,8 +26,6 @@ $categoryOptions = get_enum_values($inventoryConnection, "StockUsage", "Category
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="index.php">Restaurant Inventory System</a>
@@ -46,7 +44,7 @@ $categoryOptions = get_enum_values($inventoryConnection, "StockUsage", "Category
                         <li><a class="dropdown-item  active " href="viewInventory.php">View Inventory</a></li>
                         <li><a class="dropdown-item" href="takeInventory.php">Take Inventory</a></li>
                         <!--                        <li><hr class="dropdown-divider"></li>-->
-                        <li><a class="dropdown-item" href="editInventory.php">Edit Category/ Items [DEAD LINK]</a></li>
+                        <li><a class="dropdown-item" href="editInventory.php">Edit Category/Items</a></li>
                     </ul>
                 </li>
 
@@ -62,14 +60,12 @@ $categoryOptions = get_enum_values($inventoryConnection, "StockUsage", "Category
     </div>
 </nav>
 
-    <div class = "container">
+    <div class = "container mb-5 mt-2">
 
-        <br><br>
+        <br>
         <div class="alert alert-info" role="alert">
             Hello, <?php echo $user_data['name']; ?>. How are you today?
         </div>
-
-
         <h1 class = "pb-4 mt-4 mb-4 border-bottom">View Inventory</h1>
 
 
@@ -93,11 +89,10 @@ $categoryOptions = get_enum_values($inventoryConnection, "StockUsage", "Category
 
                     <select class="form-select mb-2" id="columnToBeArranged" type="text" name="columnToBeArranged">
                         <option value='Item'>Item</option>
-                        <option value="PurchaseDate">PurchaseDate</option>
-                        <option value="Description">Description</option>
-                        <option value="Quantity">Quantity</option>
-                        <option value="Unit">Unit</option>
                         <option value="Category">Category</option>
+                        <option value="Unit">Measurement Units</option>
+                        <option value="BegInvent">Beginning Inventory</option>
+                        <option value="Quantity">End Inventory</option>
                     </select>
                 </div>
 
