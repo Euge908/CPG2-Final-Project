@@ -93,7 +93,7 @@ $buttonsFlag = 'visible';  // visible or  invisible; to be added to div's class
             $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
             if ($rows[0]['Date'] !== date('Y-m-d')) {  // if latest inventory not today's
-                warningAlert("You have not take today's inventory yet. 
+                fixedWarningAlert("You have not take today's inventory yet. 
                         Please proceed to &nbsp; <a href='takeInventory.php' class='alert-link'> Take Inventory</a>.");
                 $buttonsFlag = 'invisible';
             } else {  // When latest inventory is today's, allow edit
@@ -183,7 +183,7 @@ $buttonsFlag = 'visible';  // visible or  invisible; to be added to div's class
 
 
         } else {
-            warningAlert("Nothing in inventory yet. 
+            fixedWarningAlert("Nothing in inventory yet. 
                              Please `<a href='takeInventory.php' class='alert-link'> Take Inventory</a>` first!");
         }
 

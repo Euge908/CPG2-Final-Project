@@ -98,13 +98,14 @@ $buttonsFlag = 'visible';  // visible or  invisible; to be added to div's class
 
     <!-- Display last inventory records, if any-->
     <?php
-    if (!is_null($rows)) {
-        if ($rows[0]['Date'] === date('Y-m-d')) {
-            fixedWarningAlert("You have already took inventory for the day. Go to &nbsp;  
+
+    if (!is_null($rows) and ($rows[0]['Date'] === date('Y-m-d'))) {
+        fixedWarningAlert("You have already took inventory for the day. Go to &nbsp;  
                                <a href='editInventory.php' class='alert-link'>Edit Inventory</a> &nbsp; for editing.");
-            $buttonsFlag = 'invisible';
-        } else {
-            echo<<< EOF
+        $buttonsFlag = 'invisible';
+    } else {
+
+        echo<<< EOF
             <form method='post'>
                 <table class = "specialTable">
                  <thead>
@@ -118,6 +119,8 @@ $buttonsFlag = 'visible';  // visible or  invisible; to be added to div's class
                  </thead>
                 <tbody id="tbodyOfInput">
 EOF;
+
+        if (!is_null($rows)) {
 
             // Get new inventory entry from user
             foreach ($rows as $row) {
@@ -150,10 +153,11 @@ EOF;
                 $ctr++;
             }
             unset($row);  // break reference with the last element as it is retained even after the loop
+
+        } else {
+            fixedWarningAlert("Nothing in inventory yet. Insert New Item to start taking inventory!");
+            echo "<tr><td colspan='4'>Nothing to show. <br><br></td></tr>";
         }
-    } else {
-        fixedWarningAlert("Nothing in inventory yet. Insert New Item to start taking inventory!");
-        echo "<tr><td colspan='4'>Nothing to show. <br><br></td></tr>";
     }
     ?>
 
