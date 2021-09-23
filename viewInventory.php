@@ -19,7 +19,7 @@ $categoryOptions = get_enum_values($inventoryConnection, "StockUsage", "Category
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Take Inventory</title>
+    <title>View Inventory</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
@@ -40,16 +40,16 @@ $categoryOptions = get_enum_values($inventoryConnection, "StockUsage", "Category
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <!--current active tab-->
-                    <a class="nav-link active px-4" aria-current="page" href="#">Generate Cogs [DEAD LINK]</a>
+                    <a class="nav-link " aria-current="page" href="#">Generate Cogs [DEAD LINK]</a>
                 </li>
 
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle px-4" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle px-4 active " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Take Inventory
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="viewInventory.php">View Inventory</a></li>
+                        <li><a class="dropdown-item  active " href="viewInventory.php">View Inventory</a></li>
                         <li><a class="dropdown-item" href="takeInventory.php">Take Inventory</a></li>
                         <!--                        <li><hr class="dropdown-divider"></li>-->
                         <li><a class="dropdown-item" href="#">Edit Category/ Items [DEAD LINK]</a></li>
@@ -109,7 +109,7 @@ $categoryOptions = get_enum_values($inventoryConnection, "StockUsage", "Category
 
                 <div class = "col-auto">
                     <button class="btn btn-primary mb-2" id="orderButton" type="submit" name="orderBy">Order By</button>
-                    <button class="btn btn-primary mb-2" id="searchButton" type="submit" name="searchValue">Search Value</button>
+                    <button class="btn btn-primary mb-2" id="searchButton" type="submit" name="search">Search Value</button>
                 </div>
             </div>
         </form>
@@ -165,10 +165,11 @@ $categoryOptions = get_enum_values($inventoryConnection, "StockUsage", "Category
                 // Fetch all rows from query
                 $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-
                 echo "<div class=\"alert alert-secondary\" role=\"alert\">
                 Here are the latest inventory updated last ". $rows[0]['Date'].
                 "</div>";
+
+
 
                 foreach ($rows as $row) {
                     $total = $row['BegInvent']+$row['Purchases'];  // Total quantity prior usage
@@ -197,9 +198,16 @@ $categoryOptions = get_enum_values($inventoryConnection, "StockUsage", "Category
 
             mysqli_free_result($result);  // free memory
 
+            if(isset($_POST['search']) or isset($_POST['orderBy']))
+            echo "<div class=\"alert alert-success\" role=\"alert\">
+                Query Results Displayed! 
+            </div>";
         } else {
             die("Something Went Wrong with searching. Try Refreshing the page.");
         }
+
+
+
         ?>
 
         </table>

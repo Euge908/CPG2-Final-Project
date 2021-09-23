@@ -295,7 +295,6 @@ session_start();
             }else{
 
                 if (isset($_POST['searchValue'])) {
-                    echo "Search Entry was clicked";
                     $query = "select * from expenditure where Item = '$text'";
                 }
             }

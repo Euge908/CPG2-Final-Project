@@ -30,18 +30,74 @@ mysqli_free_result($result);  // free memory
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>Take Inventory</title>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Take Inventory</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
 </head>
 <body>
-    <a href="logout.php">Logout</a>
-    <h1>Take Inventory</h1>
-    Hello, <?php echo $user_data['name'];?>! It's time to take your daily inventory. <br>
 
-    <form method='post'>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.php">Restaurant Inventory System</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <!--current active tab-->
+                        <a class="nav-link " aria-current="page" href="#">Generate Cogs [DEAD LINK]</a>
+                    </li>
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle px-4 active " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Take Inventory
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="viewInventory.php">View Inventory</a></li>
+                            <li><a class="dropdown-item active" href="takeInventory.php">Take Inventory</a></li>
+                            <!--                        <li><hr class="dropdown-divider"></li>-->
+                            <li><a class="dropdown-item" href="#">Edit Category/ Items [DEAD LINK]</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link px-4" href="index.php">Expenditures</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link px-4" href="logout.php">Log Out</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <div class = "container">
+
+
+        <br>
+        <div class="alert alert-info" role="alert">
+            Hello, <?php echo $user_data['name']; ?>! It's time to take your daily inventory.
+        </div>
+        <h1 class = "pb-4 mt-4 mb-4 border-bottom">Take Inventory</h1>
+
+
+
+
+
+        <form method='post'>
         <table>
         <tr>
             <th>Item</th>
@@ -167,6 +223,8 @@ mysqli_free_result($result);  // free memory
         }
     }
     ?>
+
+    </div>
 </body>
 </html>
 
