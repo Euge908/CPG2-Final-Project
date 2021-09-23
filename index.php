@@ -5,9 +5,6 @@ session_start();
 	include("./include/functions.inc.php");
 
 	$user_data = check_login($usersConnection);
-//    echo $user_data['privelege'];
-
-    $danger = "";
 
 
 ?>
@@ -19,10 +16,19 @@ session_start();
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
+    <style>
+
+        .hide{
+            display:none
+        }
+
+
+    </style>
 
 </head>
 <body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
@@ -69,16 +75,21 @@ session_start();
         Hello, <?php echo $user_data['name']; ?>. How are you today?
     </div>
 
-    <?php
-    ?>
 
 
-    <?php
-        echo $danger;
-    ?>
 
     <h1 class = "pb-4 mt-4 mb-4 border-bottom">Expenditure Entry</h1>
 
+
+    <div class="alert alert-success" role="alert" id = "dangerMessage">
+        Hello
+    </div>
+
+
+
+    <div class="alert alert-danger " role="alert" id = "successMessage" style = "">
+        Hello
+    </div>
 
     <form method = "post">
 
@@ -216,7 +227,6 @@ session_start();
 
 
     if (isset($_POST['addEntry']) or isset($_POST['deleteEntry'])) {
-
         $dateOfPurchase = trim($_POST["dateOfPurchase"]);
         $productName = trim($_POST['productName']);
         $description = trim($_POST['description']);
@@ -225,6 +235,7 @@ session_start();
         $category = trim($_POST['category']);
         $modifyQuery = "";
 
+
         if (isset($_POST['addEntry'])) {
             echo !$dateOfPurchase;
 
@@ -232,10 +243,7 @@ session_start();
             {
                 $modifyQuery = "insert into  expenditure (Item, PurchaseDate, Description, Quantity, Unit, Category) values ('$productName', '$dateOfPurchase', '$description', '$quantity', '$units','$category')";
             }else{
-                $danger = "<div class=\"alert alert-danger\" role=\"alert\">
-                One or more empty Fields Detected!
-                </div>";
-
+                echo "<script>alert(\"Empty  Fields Detected. Try again\")</script>";
             }
 
 
@@ -245,14 +253,11 @@ session_start();
             //()
             if(!empty($dateOfPurchase) or !empty($productName) or !empty($description) or !empty ($quantity) or !empty($units) or !empty($category))
             {
-                if($user_data == 'admin')
-                {
+
                     $modifyQuery = "delete from expenditure where Item ='$productName' AND PurchaseDate = '$dateOfPurchase' AND Description = '$description' AND Quantity ='$quantity' AND Unit = '$units' AND Category = '$category'";
-                }
+                    echo $modifyQuery;
             }else{
-                $danger = "<div class=\"alert alert-danger\" role=\"alert\">
-                One or more empty Fields Detected!
-                </div>";
+                echo "<script>alert(\"Empty  Fields Detected. Try again\")</script>";
             }
         }
 
@@ -260,10 +265,9 @@ session_start();
         //add condition to check if modifyQuery was successful
         if(!mysqli_query($inventoryConnection, $modifyQuery))
         {
-            $danger = "<div class=\"alert alert-danger\" role=\"alert\">
-                Something went wrong!
-                </div>";
-
+            die();
+        }else{
+            echo "<script>alert(\"Success!\")</script>";
         }
 
 
@@ -285,9 +289,7 @@ session_start();
 
             if(empty($text))
             {
-                $danger = "<div class=\"alert alert-danger\" role=\"alert\">
-                One or more empty Fields Detected!
-                </div>";
+                echo "<script>alert(\"Empty  Fields Detected. Try again\")</script>";
             }else{
 
                 if (isset($_POST['searchValue'])) {
@@ -319,12 +321,13 @@ session_start();
             }
         }
     }else{
-        $danger = "<div class=\"alert alert-danger\" role=\"alert\">
-                Something went wrong with the database. Try again later.
-                </div>";    }
+
+    }
 
     ?>
     </table>
+
+
 
 </body>
 </html>
